@@ -1,0 +1,345 @@
+{
+ "oils": [
+  {
+   "name": "Avocado oil (refined)",
+   "smokePointF": 520,
+   "smokePointRangeF": "480-520",
+   "refined": true,
+   "flavor": "neutral, very mild buttery-clean",
+   "bestMethods": [
+    "deep-fry",
+    "high-heat sear",
+    "stir-fry",
+    "roast 400F+",
+    "saute medium"
+   ],
+   "pairsWith": [
+    "steak and chops",
+    "seared fish and scallops",
+    "Mexican and Tex-Mex",
+    "grilled vegetables",
+    "stir-fries",
+    "anything where you want the food, not the oil, to taste"
+   ],
+   "avoidFor": "Raw/no-heat finishing where you want flavor payoff - it is nearly flavorless, so a cheaper neutral oil works cold. Note: unrefined/virgin avocado oil is a different product (~350-400F, grassy) and should NOT be pushed to searing heat.",
+   "confidence": "high - Healthline, ThermoWorks, MasterClass agree on 520F for refined; both passes match",
+   "glutenVeganNote": "GF; vegan"
+  },
+  {
+   "name": "Extra-virgin olive oil (EVOO)",
+   "smokePointF": 375,
+   "smokePointRangeF": "350-410",
+   "refined": false,
+   "flavor": "grassy, fruity, peppery, sometimes bitter (varietal-dependent)",
+   "bestMethods": [
+    "raw finish",
+    "saute medium",
+    "low-heat",
+    "roast 400F+ (drizzle-on vegetables)"
+   ],
+   "pairsWith": [
+    "Mediterranean and Italian",
+    "salads and vinaigrettes",
+    "bread dipping",
+    "tomatoes, beans, greens",
+    "grilled or roasted vegetables",
+    "finishing soups, pasta, grilled fish",
+    "bruschetta and burrata"
+   ],
+   "avoidFor": "High-heat searing and deep-frying - not because it is unsafe (its polyphenols/vitamin E make it more oxidation-stable than the modest smoke point suggests), but because hard heat burns off the grassy/peppery aromatics you paid for and can turn a peppery oil acrid. Sear in a neutral high-heat oil, then finish with raw EVOO.",
+   "confidence": "medium - sources legitimately vary (Healthline 375F; NAOOA/AboutOliveOil 350-410F) because smoke point tracks free-fatty-acid content and oil quality. Smoke point is a weak safety predictor for EVOO; both passes agree flavor is the real reason to keep it off high heat.",
+   "glutenVeganNote": "GF; vegan"
+  },
+  {
+   "name": "Regular / light (refined) olive oil",
+   "smokePointF": 465,
+   "smokePointRangeF": "390-470",
+   "refined": true,
+   "flavor": "neutral to faintly olivey; 'light' refers to color/flavor, NOT calories",
+   "bestMethods": [
+    "high-heat sear",
+    "saute medium",
+    "roast 400F+",
+    "stir-fry",
+    "deep-fry"
+   ],
+   "pairsWith": [
+    "everyday Mediterranean cooking",
+    "sauteing and pan-frying",
+    "roasting vegetables and potatoes",
+    "baking where you want olive-oil benefits without the bite",
+    "mayonnaise and emulsions"
+   ],
+   "avoidFor": "Finishing and dressings where you actually want olive flavor - refining strips the polyphenols and grassy/peppery character that make EVOO worth using raw. Use EVOO for that.",
+   "confidence": "high - NAOOA 390-470F, Healthline ~470F; both passes match",
+   "glutenVeganNote": "GF; vegan"
+  },
+  {
+   "name": "Canola oil",
+   "smokePointF": 400,
+   "smokePointRangeF": "400-450",
+   "refined": true,
+   "flavor": "neutral",
+   "bestMethods": [
+    "deep-fry",
+    "stir-fry",
+    "saute medium",
+    "roast 400F+",
+    "raw finish (as a neutral base)"
+   ],
+   "pairsWith": [
+    "all-purpose everyday cooking",
+    "frying fish and doughnuts",
+    "baking cakes, muffins, quick breads",
+    "stir-fries",
+    "neutral vinaigrettes and homemade mayo",
+    "any dish where the food, not the oil, should be the star"
+   ],
+   "avoidFor": "Raw finishing where flavor matters (it has none - use butter, EVOO, toasted sesame, or coconut for that). At the conservative end of its range it is also not ideal for the very hottest steakhouse sears at 500F+.",
+   "confidence": "high, but passes disagree on the exact number - smoke pass 400F (400-450), flavor pass 425F (400-475); other charts cite ThermoWorks 435F. Treat ~400-435F as representative; the 400F floor is the safe planning figure.",
+   "glutenVeganNote": "GF; vegan"
+  },
+  {
+   "name": "Butter",
+   "smokePointF": 350,
+   "smokePointRangeF": "300-350",
+   "refined": false,
+   "flavor": "rich, creamy, sweet-dairy; develops nutty/toasty notes as it browns",
+   "bestMethods": [
+    "low-heat",
+    "saute medium",
+    "raw finish",
+    "no-heat (spreading, mounting sauces)"
+   ],
+   "pairsWith": [
+    "eggs and breakfast",
+    "pancakes and baked goods",
+    "pan sauces and beurre blanc",
+    "basting steaks (added off direct high heat)",
+    "vegetables and mashed potatoes",
+    "French cooking",
+    "finishing risotto and pasta"
+   ],
+   "avoidFor": "High-heat searing and deep-frying - milk solids brown by ~250-300F and burn/scorch (bitter, acrid) by ~350F. Add butter off-heat or at the end, add a splash of oil to raise the threshold, or switch to ghee/clarified butter for higher heat.",
+   "confidence": "medium - ThermoWorks cites 302F (precise; milk solids burn early) while most culinary sources cite ~350F. Use 300-350F.",
+   "glutenVeganNote": "Dairy (not vegan); plain butter is GF (verify cultured/flavored butters)"
+  },
+  {
+   "name": "Ghee (clarified butter)",
+   "smokePointF": 480,
+   "smokePointRangeF": "450-485",
+   "refined": true,
+   "flavor": "rich, nutty, slightly caramelized butter (milk solids browned, then strained out)",
+   "bestMethods": [
+    "deep-fry",
+    "high-heat sear",
+    "stir-fry",
+    "roast 400F+",
+    "saute medium",
+    "low-heat",
+    "raw finish"
+   ],
+   "pairsWith": [
+    "Indian and South Asian curries, dal, rice",
+    "blooming/tempering whole spices (tadka)",
+    "Middle Eastern dishes",
+    "searing steaks and seafood",
+    "roasting vegetables and potatoes",
+    "drizzling over flatbreads, popcorn, or finished dishes"
+   ],
+   "avoidFor": "Little to avoid - it is one of the most heat-stable fats. Just note it is buttery-nutty, not truly neutral, so use a refined neutral oil where you want a flavorless background.",
+   "confidence": "high - passes differ slightly (smoke pass 485F, flavor pass 475F); both land in 450-485F. Removing milk solids raises it ~130F above whole butter. Using 480F as representative.",
+   "glutenVeganNote": "Dairy-derived (not vegan), but milk solids removed so very low lactose/casein; GF"
+  },
+  {
+   "name": "Virgin coconut oil",
+   "smokePointF": 350,
+   "smokePointRangeF": "350-360",
+   "refined": false,
+   "flavor": "sweet, distinctly coconutty, tropical",
+   "bestMethods": [
+    "saute medium",
+    "low-heat",
+    "roast 400F+ (kept under threshold)",
+    "no-heat (baking solid into doughs)"
+   ],
+   "pairsWith": [
+    "Thai and Southeast Asian curries",
+    "tropical and coconut-forward dishes",
+    "baking (cookies, cakes, pie crust, granola)",
+    "sweet potatoes and squash",
+    "vegan baking as a butter substitute",
+    "popcorn"
+   ],
+   "avoidFor": "High-heat searing and deep-frying (~350F smoke point), and any savory dish where you don't want an assertive sweet coconut taste that carries through. Use REFINED coconut oil (~400-450F, flavorless) when you need higher heat or neutrality.",
+   "confidence": "high - virgin/unrefined ~350F (Healthline, ThermoWorks); both passes match. This entry is the virgin form; refined coconut is a separate, higher-smoke-point product.",
+   "glutenVeganNote": "GF; vegan; solid at room temp (saturated fat)"
+  },
+  {
+   "name": "Flaxseed / flax oil",
+   "smokePointF": 225,
+   "smokePointRangeF": "225-240",
+   "refined": false,
+   "flavor": "nutty, grassy, slightly bitter; delicate and quick to go rancid",
+   "bestMethods": [
+    "no-heat",
+    "raw finish"
+   ],
+   "pairsWith": [
+    "smoothies and shakes",
+    "cold salad dressings and vinaigrettes",
+    "drizzling over already-cooked vegetables, grains, or yogurt",
+    "dips and cold sauces",
+    "omega-3 supplementation"
+   ],
+   "avoidFor": "ANY heating or cooking - the lowest smoke point of common oils (~225F) and fragile, highly polyunsaturated omega-3s that oxidize fast and turn fishy/rancid and bitter. Never saute, fry, roast, or bake. Strictly a raw, cold finishing/supplement oil; keep refrigerated and use quickly.",
+   "confidence": "high - ~225F across sources; both passes match",
+   "glutenVeganNote": "GF; vegan; refrigerate, short shelf life"
+  },
+  {
+   "name": "Toasted sesame oil",
+   "smokePointF": 350,
+   "smokePointRangeF": "325-400",
+   "refined": false,
+   "flavor": "deep, nutty, toasty, intensely aromatic (amber/brown oil from toasted seeds)",
+   "bestMethods": [
+    "raw finish",
+    "low-heat",
+    "no-heat"
+   ],
+   "pairsWith": [
+    "East and Southeast Asian dishes",
+    "finishing stir-fries, fried rice, noodles",
+    "dipping and dumpling sauces, marinades",
+    "ramen and noodle soups",
+    "dressings for slaws and cold noodles",
+    "drizzling over steamed vegetables and rice bowls"
+   ],
+   "avoidFor": "Cooking over heat as the primary fat - it is a finishing/seasoning oil. Heated past medium-low it smokes fast, turns bitter and acrid, and the prized aroma cooks off. Do the actual stir-frying in refined sesame, peanut, or a neutral oil, then add a few drops of toasted sesame off-heat.",
+   "confidence": "high - toasted/dark ~350F; aromatic compounds from toasting lower heat tolerance; both passes match",
+   "glutenVeganNote": "GF; vegan"
+  },
+  {
+   "name": "Refined sesame oil",
+   "smokePointF": 420,
+   "smokePointRangeF": "400-450",
+   "refined": true,
+   "flavor": "neutral to very mild, pale yellow; little of the toasted aroma",
+   "bestMethods": [
+    "high-heat sear",
+    "stir-fry",
+    "saute medium",
+    "deep-fry",
+    "roast 400F+"
+   ],
+   "pairsWith": [
+    "Asian stir-fries and wok cooking (as the cooking fat)",
+    "pan-frying and deep-frying",
+    "everyday neutral cooking",
+    "tempura/frying",
+    "naturally pairs with a finishing splash of toasted sesame oil at the end"
+   ],
+   "avoidFor": "Raw finishing for aroma - it is the light/refined type and lacks toasted-sesame fragrance; use toasted sesame for flavor. Otherwise a capable high-heat oil with no real weakness.",
+   "confidence": "medium - passes disagree (smoke pass 410F, flavor pass 440F); range 400-450F. Using ~420F as a representative midpoint; much higher and milder than toasted sesame either way.",
+   "glutenVeganNote": "GF; vegan"
+  },
+  {
+   "name": "Peanut oil (refined)",
+   "smokePointF": 450,
+   "smokePointRangeF": "440-450",
+   "refined": true,
+   "flavor": "refined = neutral with faint nuttiness; unrefined/roasted = pronounced nutty (use as a finish)",
+   "bestMethods": [
+    "deep-fry",
+    "high-heat sear",
+    "stir-fry",
+    "roast 400F+",
+    "saute medium"
+   ],
+   "pairsWith": [
+    "deep-frying (fried chicken, French fries, tempura, doughnuts)",
+    "Chinese and Southeast Asian stir-fries and wok cooking",
+    "Thai and West African dishes",
+    "Southern cooking and turkey frying",
+    "searing and roasting"
+   ],
+   "avoidFor": "Anyone with a peanut allergy - refined peanut oil is generally considered low-risk, but unrefined/cold-pressed/gourmet peanut oil can carry allergenic protein, so do not serve it to allergic guests; always disclose. Refined peanut oil also adds little flavor, so use the roasted/unrefined type when you want nutty taste.",
+   "confidence": "high - refined ~450F (Healthline, ThermoWorks, MasterClass); both passes match. NOTE: unrefined/cold-pressed peanut oil is far lower (~320F).",
+   "glutenVeganNote": "GF; vegan; tree-nut-free but a peanut (legume) allergen - disclose to peanut-allergic clients"
+  },
+  {
+   "name": "Grapeseed oil",
+   "smokePointF": 420,
+   "smokePointRangeF": "390-420",
+   "refined": true,
+   "flavor": "very neutral, clean, light (one of the most neutral oils)",
+   "bestMethods": [
+    "saute medium",
+    "stir-fry",
+    "roast 400F+",
+    "raw finish"
+   ],
+   "pairsWith": [
+    "clean-tasting vinaigrettes and homemade mayonnaise/aioli",
+    "sauteing and stir-frying",
+    "infusing with herbs/garlic (neutral base)",
+    "baking (muffins, quick breads, cakes)",
+    "marinades",
+    "light dishes where you want zero oil flavor"
+   ],
+   "avoidFor": "Very high-heat or sustained deep-frying - it is high in polyunsaturated fat, so it oxidizes faster than monounsaturated avocado or peanut oil at extreme heat; not the top pick for hard searing. Also brings no flavor of its own, so don't use it where you want richness (use butter, EVOO, or toasted sesame).",
+   "confidence": "high - ~420F (ThermoWorks 421F); range 390-420F. Smoke and flavor passes agree on the number; I dropped the flavor pass's 'high-heat sear' recommendation because its PUFA profile makes it a weaker hard-sear/deep-fry oil than avocado or peanut.",
+   "glutenVeganNote": "GF; vegan"
+  },
+  {
+   "name": "Refined sunflower oil",
+   "smokePointF": 440,
+   "smokePointRangeF": "410-475",
+   "refined": true,
+   "flavor": "neutral, pale yellow",
+   "bestMethods": [
+    "deep-fry",
+    "stir-fry",
+    "roast 400F+",
+    "saute medium",
+    "raw finish (as a neutral base)"
+   ],
+   "pairsWith": [
+    "frying and deep-frying",
+    "roasting and baking",
+    "everyday neutral cooking",
+    "interchangeable with canola in most recipes",
+    "neutral dressings and homemade mayo"
+   ],
+   "avoidFor": "Raw finishing for flavor (neutral). Standard (linoleic) refined sunflower oil is PUFA-heavy and less stable for long, repeated deep-frying than high-oleic versions or peanut/avocado - prefer HIGH-OLEIC sunflower (~470F) for sustained frying.",
+   "confidence": "high - both passes center on 440F (ThermoWorks 410F low end, other charts 440-475F); high-oleic is more heat-stable than linoleic.",
+   "glutenVeganNote": "GF; vegan"
+  },
+  {
+   "name": "Neutral 'vegetable' / spray oils",
+   "smokePointF": 400,
+   "smokePointRangeF": "400-450",
+   "refined": true,
+   "flavor": "neutral (blend of soybean, canola, corn, and/or sunflower); soybean-based sprays ~450F",
+   "bestMethods": [
+    "deep-fry",
+    "stir-fry",
+    "saute medium",
+    "roast 400F+",
+    "no-heat (sprays for greasing pans, grates, baking sheets)"
+   ],
+   "pairsWith": [
+    "all-purpose everyday cooking and frying",
+    "baking cakes, muffins, quick breads",
+    "greasing pans, grill grates, and baking sheets (sprays)",
+    "stir-fries",
+    "neutral dressings and batters",
+    "any recipe where you want the food, not the oil, to be the star"
+   ],
+   "avoidFor": "Raw finishing (no flavor). With aerosol sprays, avoid repeatedly spraying onto hot nonstick pans (lecithin/propellants build sticky residue), and don't rely on the bottled-oil smoke point under aerosol use - some sprays smoke earlier. For the hardest searing, pick a known high-smoke-point oil instead.",
+   "confidence": "medium - 'vegetable oil' is usually soybean or a canola/soy blend; smoke point depends on the blend. Soybean-heavy blends/sprays reach ~450F while generic 'vegetable oil' is often cited ~400F. Both passes agree on 400F as the safe planning figure.",
+   "glutenVeganNote": "GF; vegan (check spray additives)"
+  }
+ ],
+ "pairingGuidance": "Match the oil to the JOB in two steps: heat first, then flavor. Leave roughly a 50F buffer below the smoke point for your target cooking temperature. For hard searing, stir-frying, and deep-frying, reach for a refined high-smoke-point, neutral oil so nothing burns or turns bitter: refined avocado (520F), ghee (480F, buttery), refined peanut (450F), refined sunflower (~440F), light/refined olive (465F), or canola and plain 'vegetable' oil all disappear into the food. Use flavor-forward fats where their taste is the point and the heat is gentler: extra-virgin olive oil for Mediterranean cooking, salads, and finishing; butter for eggs, baked goods, and pan sauces (added at low-medium heat or off the heat so the milk solids don't scorch); virgin coconut oil for Thai curries and sweet baking; ghee for Indian dishes and spice-blooming (it also takes high heat). Treat toasted sesame and flaxseed strictly as finishing oils: a few drops of toasted sesame at the very end of an Asian dish, and flax only cold in smoothies or dressings, since both are ruined by heat. Two practical cautions for grapeseed and standard sunflower: they are neutral and fine for medium heat, but their high polyunsaturated-fat content oxidizes faster than avocado or peanut under prolonged or extreme frying. The reliable restaurant move is to cook in a neutral high-heat oil and then finish with a flavorful raw one (EVOO, toasted sesame, or brown butter) so you get both stability and taste. Remember that 'refined' almost always means higher heat tolerance but a more neutral, less nutritious flavor than the virgin/extra-virgin version of the same oil."
+}

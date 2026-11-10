@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OB Meal Planner</title>
+<!-- OB's brand faces (the same as his carousels and ob-health.com), used by the client PDF -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="styles.css?v=89">
+</head>
+<body>
+<div id="app">
+  <!-- ================= HEADER ================= -->
+  <header class="topbar">
+    <div class="brand">OB <span>Meal Planner</span></div>
+    <div class="client-bar">
+      <select id="clientSelect" title="Saved clients"><option value="">+ New client</option></select>
+      <button id="saveClientBtn" class="btn btn-ghost" title="Save this client">Save</button>
+      <button id="historyBtn" class="btn btn-ghost" title="Earlier saved versions of this client: what changed, and open any of them">🕘 History</button>
+      <button id="deleteClientBtn" class="btn btn-ghost" title="Delete this client">Delete</button>
+      <button id="dupClientBtn" class="btn btn-ghost" title="Save a copy of this client under a new name">⎘ Duplicate</button>
+      <button id="exportClientsBtn" class="btn btn-ghost" title="Download all saved clients as a backup file (move them to another computer / coach)">⬇ Backup</button>
+      <button id="importClientsBtn" class="btn btn-ghost" title="Import clients from a backup file">⬆ Import</button>
+      <input type="file" id="importFile" accept=".json,application/json" hidden>
+    </div>
+    <div class="top-actions">
+      <button id="exportBtn" class="btn btn-primary">Export client PDF</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- ================= LEFT: PROFILE + TARGETS ================= -->
+    <section class="panel profile">
+      <h2>1 · Client &amp; targets</h2>
+
+      <label class="fld"><span>Client name</span>
+        <input id="pName" type="text" placeholder="e.g. Jane D."></label>
+
+      <div class="row2">
+        <label class="fld"><span>Biological sex <em title="Sets the micronutrient targets (RDA). Some, like iron, differ by sex.">(targets)</em></span>
+          <select id="pSex"><option value="female">Female</option><option value="male">Male</option></select></label>
+        <label class="fld"><span>Meals / day</span>
+          <select id="pMeals"><option>3</option><option selected>4</option><option>5</option><option>6</option></select></label>
+        <label class="fld"><span>Goal</span>
+          <select id="pGoal"><option value="loss" selected>Fat loss</option><option value="maintain">Maintain</option><option value="gain">Build muscle</option></select></label>
+      </div>
+
+      <h3>⚕️ Health screen <em class="sub">(scope check — fill before planning)</em></h3>
+      <div id="screenChips" class="chips"></div>
+      <div id="screenBanner" class="scope-banner hidden"></div>
+      <label class="checkrow"><input type="checkbox" id="pAttest"> <span>Client attests they're an apparently-healthy adult, not treating a medical condition, and advised to consult their physician.</span></label>
+
+      <h3>Daily macro targets</h3>
+      <select id="presetSel" class="full" title="Quick-fill common targets" style="margin-bottom:8px">
+        <option value="">⚡ Quick target preset…</option>
+        <option>Female · fat loss · 1500</option>
+        <option>Female · fat loss · 1700</option>
+        <option>Female · maintain · 2000</option>
+        <option>Male · fat loss · 2000</option>
+        <option>Male · fat loss · 2300</option>
+        <option>Male · maintain · 2700</option>
+        <option>Female · build muscle · 2200</option>
+        <option>Male · build muscle · 2800</option>
+        <option>Male · build muscle · 3200</option>
+      </select>
+      <div class="row4 targets">
+        <label class="fld"><span>Calories</span><input id="tCal" type="number" min="0" step="10" value="1800"></label>
+        <label class="fld"><span>Protein g</span><input id="tPro" type="number" min="0" step="5" value="150"></label>
+        <label class="fld"><span>Carbs g</span><input id="tCarb" type="number" min="0" step="5" value="160"></label>
+        <label class="fld"><span>Fat g</span><input id="tFat" type="number" min="0" step="5" value="55"></label>
+      </div>
+      <button id="genMacrosBtn" class="btn btn-ghost btn-sm macro-fill" title="Fill blank macros (or re-balance) to match the calorie target">↻ Generate remaining macros</button>
+      <button id="retargetBtn" class="btn btn-ghost btn-sm macro-fill" title="Change the plan's calories: same foods and protein, only the carb or fat portions move, with a preview of every change">📉 Change calories…</button>
+      <div id="macroMathHint" class="hint"></div>
+
+      <details class="calc">
+        <summary>📊 Calculate targets from body stats</summary>
+        <div class="row2">
+          <label class="fld"><span>Weight (lb)</span><input id="cWeight" type="number" min="0" step="1" placeholder="e.g. 180"></label>
+          <label class="fld"><span>Height (in)</span><input id="cHeight" type="number" min="0" step="1" placeholder="e.g. 67"></label>
+        </div>
+        <div class="row2">
+          <label class="fld"><span>Age</span><input id="cAge" type="number" min="0" step="1" value="35"></label>
+          <label class="fld"><span>Activity</span><select id="cActivity">
+            <option value="1.2">Sedentary</option>
+            <option value="1.375" selected>Light (1–3 d/wk)</option>
+            <option value="1.55">Moderate (3–5 d)</option>
+            <option value="1.725">Very active (6–7 d)</option></select></label>
+        </div>
+        <label class="fld"><span>Goal</span><select id="cGoal">
+          <option value="0.78">Fat loss (−22%)</option>
+          <option value="0.85">Gentle fat loss (−15%)</option>
+          <option value="1.0">Maintain</option>
+          <option value="1.1">Build muscle (+10%)</option></select></label>
+        <button id="calcBtn" class="btn btn-ghost btn-sm full">Calculate &amp; fill targets</button>
+        <div id="calcHint" class="hint"></div>
+      </details>
+
+      <label class="checkrow"><input type="checkbox" id="pBanking"> 🏦 Calorie banking <em class="sub">— lighter weekdays, bigger weekends (same weekly average)</em></label>
+      <select id="pBankIntensity" class="full" aria-label="Calorie banking swing intensity" title="How big the weekday→weekend swing is" style="display:none">
+        <option value="mild">Mild swing</option>
+        <option value="moderate" selected>Moderate swing</option>
+        <option value="aggressive">Aggressive swing</option>
+      </select>
+
+      <h3>Dietary pattern</h3>
+      <select id="pDiet" class="full">
+        <option value="omnivore">Omnivore (everything)</option>
+        <option value="pescatarian">Pescatarian (fish, no other meat)</option>
+        <option value="vegetarian">Vegetarian (no meat/fish)</option>
+        <option value="ovo">Vegan + eggs (no meat/fish/dairy; eggs OK)</option>
+        <option value="vegan">Vegan (no animal products)</option>
+      </select>
+      <details class="modes">
+        <summary>🍽️ Diet overlays &amp; modes <em class="sub">(halal, kosher, gluten-free, gut, GLP-1, volume, budget)</em></summary>
+        <label class="checkrow"><input type="checkbox" id="pHalal"> 🕌 Halal <em class="sub">— excludes pork &amp; alcohol (works with any diet above)</em></label>
+        <label class="checkrow"><input type="checkbox" id="pKosher"> ✡️ Kosher <em class="sub">— excludes pork &amp; shellfish; warns on meat+dairy meals</em></label>
+        <label class="checkrow"><input type="checkbox" id="pGlutenFree"> 🌾 Gluten-free <em class="sub">— excludes wheat, barley &amp; gluten grains</em></label>
+        <label class="checkrow"><input type="checkbox" id="pGut"> 🦠 Gut-health mode <em class="sub">— maximizes fiber diversity, fermented &amp; prebiotic foods</em></label>
+        <label class="checkrow"><input type="checkbox" id="pGlp1"> 💉 GLP-1 / small appetite <em class="sub">— protein-dense, lower-volume meals</em></label>
+        <label class="checkrow"><input type="checkbox" id="pVolume"> 🥗 Volume eating <em class="sub">— bigger, more filling plates for the same calories (more veg, leaner picks, low-density swaps)</em></label>
+        <label class="checkrow"><input type="checkbox" id="pBudget"> 💵 Budget mode <em class="sub">— highest protein-per-dollar foods (leg quarters, canned fish, beans, TVP) at the same macros</em></label>
+        <label class="checkrow"><input type="checkbox" id="pSimple"> 🍽️ Simple meals <em class="sub">— straightforward classic plates (steak &amp; potatoes, chicken &amp; quinoa): one lean protein, one basic starch, one veg, seasoned to taste great</em></label>
+        <label class="checkrow"><input type="checkbox" id="pNoOven"> 🔥 No oven <em class="sub">— skips baked, roasted and sheet-pan recipes</em></label>
+        <label class="checkrow"><input type="checkbox" id="pAirFryer"> 🌀 Has an air fryer <em class="sub">— keeps recipes that give an air-fryer way</em></label>
+        <label class="checkrow"><input type="checkbox" id="pNoGrill"> 🚫 No grill <em class="sub">— skips grilled and skewer recipes</em></label>
+        <label class="checkrow"><input type="checkbox" id="pNoSlow"> 🥘 No slow cooker <em class="sub">— skips crock-pot and pressure-cooker recipes</em></label>
+        <label class="fld"><span>Numbers on the PDF</span>
+          <select id="pPdfNumbers"><option value="all">Calories and macros on every food, meal and day</option><option value="day">Grams on every food, plus one calories and protein line a day</option><option value="none">Grams only: no calories or macros anywhere (for a client who should not count)</option></select></label>
+        <label class="checkrow"><input type="checkbox" id="pTravel"> ✈️ Travel-day page <em class="sub">— packing from foods on the plan, hotel breakfast, road stops and restaurants, in hands and grams</em></label>
+        <label class="checkrow"><input type="checkbox" id="pPlug" checked> 🔁 Plug-and-play pages <em class="sub">— at the back of the PDF, a pick list for each meal built only from foods already on the plan, weighed so any pick stands in for that meal</em></label>
+        <label class="checkrow"><input type="checkbox" id="pMetric"> 📏 Metric <em class="sub">— grocery list in kg and g, water in litres</em></label>
+        <label class="fld"><span>Shops in</span>
+          <select id="pCountry"><option value="">United States / Canada</option><option value="MX">Mexico (Spanish shelf names on the grocery list, no US brand suggestions)</option></select></label>
+        <label class="checkrow"><input type="checkbox" id="pPrep"> 🥡 Meal-prep mode <em class="sub">— a small set of meals repeated across the week batch-cooked on your cook days, with prep + fridge/freezer storage on each</em></label>
+        <label class="fld" id="prepVarietyWrap" style="display:none"><span>Different meals to rotate <em class="sub">(fewer = simpler prep)</em></span>
+          <select id="pPrepVariety"><option value="2">2 (simplest)</option><option value="3" selected>3</option><option value="4">4</option></select></label>
+        <label class="fld" id="prepCookWrap" style="display:none"><span>How often you cook <em class="sub">(3-day and 4-day batches keep every container inside its fridge life)</em></span>
+          <select id="pPrepCook"><option value="weekly" selected>Once a week (Sunday)</option><option value="4day">4-day batches (Sunday + Thursday)</option><option value="3day">3-day batches (Sunday + Wednesday, Saturday fresh)</option><option value="twice">Twice a week (Sunday + Wednesday)</option><option value="batch3">One 3-day batch (Day 1 to 3)</option></select></label>
+        <label class="fld" id="prepDaysWrap" style="display:none"><span>Days in the plan <em class="sub">(rotating shifts: Day 1 is the day off before a run of shifts, and every cook day counts from it)</em></span>
+          <select id="pDayNames"><option value="week" selected>Sunday to Saturday</option><option value="numbered">Day 1 to Day 7 (rotating shifts)</option></select></label>
+      </details>
+
+      <h3>Allergies &amp; can't-haves <em class="sub">(hard exclude)</em></h3>
+      <div id="allergenChips" class="chips"></div>
+      <label class="fld"><span>Other can't-haves <em class="sub">(comma separated)</em></span>
+        <input id="pCantHave" type="text" placeholder="e.g. cilantro, pork, lactose"></label>
+
+      <h3>Dislikes <em class="sub">(avoid if possible)</em></h3>
+      <input id="pDislikes" type="text" class="full" placeholder="e.g. mushrooms, cottage cheese">
+
+      <h3>Loves <em class="sub">(prioritize in the draft)</em></h3>
+      <input id="pLikes" type="text" class="full" placeholder="e.g. salmon, eggs, oats, berries">
+      <label class="checkrow"><input type="checkbox" id="pSpecialty"> 🛒 Client can buy specialty foods <em class="sub">(natural-food store or online: seitan, soy or pea protein isolate, TVP, hemp seeds, silken tofu, fresh mackerel). Off by default so plans only use food from ordinary supermarkets. A food typed in Loves is always allowed.</em></label>
+
+      <h3>Supplements <em class="sub">(counted in the score)</em></h3>
+      <div id="suppChips" class="chips"></div>
+      <input id="pSuppNotes" type="text" class="full" placeholder="Other supplements / notes (e.g. AG1, collagen 10g)">
+
+      <h3>Coach &amp; personal touch <em class="sub">(prints on the client's plan)</em></h3>
+      <input id="coachName" type="text" class="full" placeholder="Your name (coach) — saved across all clients">
+      <input id="amazonTag" type="text" class="full" readonly title="OB Health affiliate tag — applies for all coaches" style="margin-top:8px;background:#f3f4f6;color:#6b7280">
+      <p class="hint">Supplement links carry OB Health's Amazon affiliate tag automatically (applies for every coach). Nothing to set up.</p>
+      <textarea id="pNote" class="full pnote" rows="2" placeholder="Personal note to this client — e.g. “Crushing it, Jane! Hit your protein this week and you'll feel the difference.”"></textarea>
+
+      <button id="generateBtn" class="btn btn-primary btn-block">⚡ Auto-draft a plan</button>
+      <p class="micro-note">Builds a plan that hits your macro targets from this client's allowed foods, then you edit it below. All numbers are real USDA FoodData Central values.</p>
+      <p class="micro-note disclaimer" id="appDisclaimer"></p>
+    </section>
+
+    <!-- ================= CENTER: PLAN EDITOR ================= -->
+    <section class="panel plan">
+      <div class="plan-head">
+        <h2>2 · Plan <span id="planSubtitle" class="sub"></span></h2>
+        <div class="plan-actions">
+          <button id="groceryBtn" class="btn btn-ghost btn-sm" title="Weekly grocery list aggregated across all 7 days">🛒 Groceries</button>
+          <button id="copyDayBtn" class="btn btn-ghost btn-sm" title="Copy this day's foods to all 7 days">⎘ Copy day → week</button>
+          <button id="undoBtn" class="btn btn-ghost btn-sm" title="Undo / redo the last auto-change" disabled>↩ Undo</button>
+        </div>
+      </div>
+      <div id="dayTabs" class="day-tabs"></div>
+      <div class="plan-actions plan-actions-row">
+        <button id="addMealBtn" class="btn btn-ghost btn-sm">+ Meal</button>
+        <button id="addSnackBtn" class="btn btn-ghost btn-sm">+ Snack</button>
+        <button id="addTreatBtn" class="btn btn-ghost btn-sm">+ Treat 🍰</button>
+        <button id="fitBtn" class="btn btn-ghost btn-sm" title="Rescale the staple meals so this day hits its calorie + macro targets">⤿ Fit day</button>
+        <button id="redraftDayBtn" class="btn btn-ghost btn-sm" title="Re-draft just this day (keeps the other 6)">🎲 Re-draft day</button>
+        <button id="clearDayBtn" class="btn btn-ghost btn-sm" title="Empty this day">🗑 Clear day</button>
+        <button id="copyBtn" class="btn btn-ghost btn-sm" title="Copy this day as clean text — paste into a DM or the app chat">📋 Copy day</button>
+      </div>
+      <div id="meals"></div>
+      <div id="emptyPlan" class="empty">
+        <p>No plan yet.</p>
+        <p class="sub">Set the targets on the left and hit <strong>Auto-draft a plan</strong> — or add a meal and build it by hand.</p>
+      </div>
+    </section>
+
+    <!-- ================= RIGHT: SCORECARD ================= -->
+    <aside class="panel score">
+      <h2>3 · Score</h2>
+
+      <div class="bigscore">
+        <div class="ring" id="overallRing"><span id="overallScore">—</span><small>plan score</small></div>
+      </div>
+      <div id="gutCard" class="gut-card"></div>
+
+      <h3>Macro accuracy <span id="macroAcc" class="badge">—</span></h3>
+      <div id="macroBars" class="bars"></div>
+
+      <h3>Omega balance</h3>
+      <div id="omegaPanel" class="omega"></div>
+
+      <h3>Protein quality &amp; amino acids <span id="aaQualityBadge" class="badge">—</span></h3>
+      <div id="aminoPanel"></div>
+
+      <h3>Micronutrients <span id="microScore" class="badge">—</span></h3>
+      <div class="legend"><i class="ok"></i>≥100%<i class="mid"></i>50–99%<i class="low"></i>&lt;50%<i class="over"></i>over limit</div>
+      <div id="microBars" class="bars micro"></div>
+
+      <div id="suppSuggest" class="supp-suggest"></div>
+      <p class="micro-note" id="scoreFootnote"></p>
+    </aside>
+  </main>
+</div>
+
+<!-- ============ FOOD PICKER MODAL ============ -->
+<div id="pickerBackdrop" class="backdrop hidden">
+  <div class="picker">
+    <div class="picker-head">
+      <input id="pickerSearch" type="text" placeholder="Search foods… (Enter picks the first match)" autocomplete="off">
+      <button id="pickerClose" class="btn btn-ghost btn-sm">✕</button>
+    </div>
+    <div id="pickerFilters" class="chips picker-filters"></div>
+    <div id="pickerWarn" class="picker-warn hidden"></div>
+    <div id="pickerList" class="picker-list"></div>
+  </div>
+</div>
+
+<!-- ============ FOOD VERIFY / DETAILS MODAL ============ -->
+<div id="infoBackdrop" class="backdrop hidden">
+  <div class="picker infomodal">
+    <div class="picker-head"><strong>Verify food</strong><button id="infoClose" class="btn btn-ghost btn-sm">✕</button></div>
+    <div id="infoBody" class="info-body"></div>
+  </div>
+</div>
+
+<!-- ============ WEEKLY GROCERY MODAL ============ -->
+<div id="groceryBackdrop" class="backdrop hidden">
+  <div class="picker infomodal">
+    <div class="picker-head"><strong>🛒 Weekly grocery list</strong>
+      <button id="groceryCopyBtn" class="btn btn-ghost btn-sm">📋 Copy</button>
+      <button id="groceryClose" class="btn btn-ghost btn-sm">✕</button></div>
+    <div id="groceryBody" class="info-body grocery-body"></div>
+  </div>
+</div>
+
+<!-- ============ IN-PAGE DIALOG (replaces the native alert / confirm / prompt boxes some browsers block) ============ -->
+<div id="dialogBackdrop" class="backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="dialogMsg">
+  <div class="picker dialog">
+    <div id="dialogMsg" class="dialog-body"></div>
+    <input id="dialogInput" type="text" class="dialog-input hidden" autocomplete="off">
+    <div class="dialog-actions">
+      <button id="dialogCancel" class="btn btn-ghost">Cancel</button>
+      <button id="dialogOk" class="btn btn-primary">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ VERSION HISTORY (2026-10-14) ============ -->
+<div id="historyBackdrop" class="backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="historyTitle">
+  <div class="picker history">
+    <div class="picker-head"><b id="historyTitle">History</b><span style="flex:1"></span><button id="historyClose" class="btn btn-ghost">Close</button></div>
+    <div id="historyList" class="picker-list"></div>
+    <div id="historyDiff" class="hist-diff hidden"></div>
+  </div>
+</div>
+
+<!-- ============ CHANGE CALORIES (2026-10-14) ============ -->
+<div id="retargetBackdrop" class="backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="retargetTitle">
+  <div class="picker history">
+    <div class="picker-head"><b id="retargetTitle">Change calories</b><span style="flex:1"></span><button id="retargetClose" class="btn btn-ghost">Close</button></div>
+    <div class="rt-form">
+      <label>Change by <input id="rtDelta" type="number" step="25" value="-200"> calories a day</label>
+      <label>Take it from <select id="rtFrom"><option value="carbs">carbs</option><option value="fat">fat</option><option value="both">carbs and fat</option></select></label>
+      <label class="checkrow"><input type="checkbox" id="rtLock" checked> Already shopped: no portion grows</label>
+      <div class="rt-actions"><button id="rtPreview" class="btn btn-ghost">Preview</button><button id="rtApply" class="btn btn-primary" disabled>Apply</button></div>
+    </div>
+    <div id="rtOut" class="hist-diff hidden"></div>
+  </div>
+</div>
+
+<!-- ============ PRINT / CLIENT EXPORT (hidden on screen) ============ -->
+<div id="printArea"></div>
+
+<script src="data/foods.js?v=107"></script>
+<script src="data/dri.js?v=60"></script>
+<script src="data/templates.js?v=130"></script>
+<script src="data/supplements.js?v=71"></script>
+<script src="data/gut.js?v=9"></script>
+<script src="data/sauces.js?v=10"></script>
+<script src="data/foodnouns.js?v=16"></script>
+<script src="data/portions.js?v=2"></script>
+<script src="data/availability.js?v=5"></script>
+<script src="data/yields.js?v=4"></script>
+<script src="data/retired_prep.js?v=7"></script>
+<script src="js/app.js?v=346"></script>
+</body>
+</html>

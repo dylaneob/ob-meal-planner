@@ -1,0 +1,7 @@
+.DS_Store
+.claude/
+client-files/
+app/_clients/
+app/_render-*.html
+data-build/raw/
+*.bak-*

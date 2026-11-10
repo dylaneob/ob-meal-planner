@@ -1,0 +1,570 @@
+/* ===== OB Meal Planner — styles ===== */
+:root{
+  --bg:#f4f5f3; --panel:#ffffff; --ink:#1c2620; --ink-soft:#5b6660; --line:#e3e6e1;
+  --green:#1f7a4d; --green-soft:#e7f3ec; --amber:#c8881a; --red:#c0392b;
+  --accent:#1f7a4d; --shadow:0 1px 3px rgba(20,30,25,.07),0 6px 18px rgba(20,30,25,.05);
+  --radius:12px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg); color:var(--ink); -webkit-font-smoothing:antialiased}
+h2{font-size:15px;letter-spacing:.01em;margin:0 0 12px;text-transform:none}
+h3{font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);margin:18px 0 8px}
+em{font-style:normal}
+.sub{color:var(--ink-soft);font-weight:400}
+.hint,.micro-note{font-size:12px;color:var(--ink-soft)}
+.micro-note{margin:10px 0 0}
+
+/* topbar */
+.topbar{display:flex;align-items:center;gap:16px;padding:12px 20px;background:var(--panel);
+  border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;flex-wrap:wrap}
+.brand{font-weight:700;font-size:18px;color:var(--green)}
+.brand span{color:var(--ink);font-weight:600}
+.client-bar{display:flex;gap:6px;align-items:center;margin-left:8px}
+.client-bar select{min-width:160px}
+.top-actions{margin-left:auto}
+
+/* layout */
+.layout{display:grid;grid-template-columns:330px 1fr 340px;gap:16px;padding:16px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:18px}
+.profile{position:sticky;top:73px;max-height:calc(100vh - 89px);overflow:auto}
+.score{position:sticky;top:73px;max-height:calc(100vh - 89px);overflow:auto}
+@media(max-width:1100px){.layout{grid-template-columns:1fr}.profile,.score{position:static;max-height:none}}
+
+/* keyboard accessibility: visible focus ring everywhere */
+:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:4px}
+
+/* forms */
+label.fld{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--ink-soft);margin-bottom:10px}
+label.fld span{font-weight:600}
+input,select{font:inherit;padding:8px 9px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);width:100%}
+input:focus,select:focus{outline:2px solid var(--green-soft);border-color:var(--green)}
+input[type=number]{font-variant-numeric:tabular-nums}
+.full{width:100%}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.targets input{padding:8px 6px;text-align:center}
+.macro-fill{width:100%;margin:8px 0 4px;color:var(--green)}
+
+/* scope / health-screen banner */
+.scope-banner{background:#fbe6e3;border:1px solid #f0c0bb;color:#a01b0a;font-size:12px;line-height:1.4;padding:9px 11px;border-radius:8px;margin:8px 0}
+.scope-banner.hidden{display:none}
+.scope-banner.plan-scope{margin:0 0 12px}
+.disclaimer{border-top:1px solid var(--line);padding-top:8px;margin-top:12px;color:var(--ink-soft)}
+
+/* checkbox row (halal etc.) */
+.checkrow{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;margin:10px 0 2px;cursor:pointer}
+.checkrow input{width:auto;margin:0}
+.checkrow em{font-weight:400}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.chip{font-size:12px;padding:5px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;cursor:pointer;user-select:none;transition:.12s}
+.chip:hover{border-color:var(--green)}
+.chip.on{background:var(--red);border-color:var(--red);color:#fff}
+
+/* buttons */
+.btn{font:inherit;font-weight:600;padding:8px 14px;border-radius:9px;border:1px solid var(--line);
+  background:#fff;color:var(--ink);cursor:pointer;transition:.12s}
+.btn:hover{border-color:var(--green)}
+.btn-primary{background:var(--green);border-color:var(--green);color:#fff}
+.btn-primary:hover{filter:brightness(1.06)}
+.btn-ghost{background:transparent}
+.btn-sm{padding:5px 10px;font-size:13px}
+.btn-block,.btn-block.btn{width:100%;margin-top:16px;padding:11px}
+
+/* plan editor */
+.plan-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.empty{text-align:center;color:var(--ink-soft);padding:40px 10px}
+.meal{border:1px solid var(--line);border-radius:10px;margin-bottom:12px;overflow:hidden}
+.meal-head{display:flex;align-items:center;gap:8px;background:#fafbfa;padding:8px 12px;border-bottom:1px solid var(--line)}
+.meal-name{font-weight:600;border:none;background:transparent;padding:4px;flex:0 1 auto;width:auto;min-width:90px}
+.meal-name:focus{background:#fff}
+.meal-macros{margin-left:auto;font-size:11.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap}
+.meal-del{color:var(--ink-soft);cursor:pointer;border:none;background:none;font-size:16px;padding:2px 6px}
+.meal-del:hover{color:var(--red)}
+.meal-roll{color:var(--ink-soft);cursor:pointer;border:none;background:none;font-size:14px;padding:2px 4px}
+.meal-roll:hover{color:var(--green)}
+#undoBtn:disabled{opacity:.45;cursor:default}
+#undoBtn:disabled:hover{border-color:var(--line)}
+.meal-warn{background:#fbe6e3;color:var(--red);font-size:11.5px;font-weight:600;padding:6px 12px;border-bottom:1px solid #f0d4cf}
+.food-row{display:grid;grid-template-columns:1fr 84px 120px auto;gap:8px;align-items:center;padding:7px 12px;border-bottom:1px solid #f0f2ef}
+.food-row:last-child{border-bottom:none}
+.food-name{font-size:13.5px}
+.food-name b{font-weight:600}
+.food-name .fr-portion{display:inline-block;margin-left:6px;font-size:11px;font-weight:600;color:var(--green,#2f8f5b)}
+.food-name .fr-macros{display:block;font-size:11px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.fr-recipe{font-size:11px;color:var(--ink-soft);margin-top:3px;line-height:1.4}
+.fr-recipe b{color:var(--ink);font-weight:600}
+.fr-method{font-size:11px;color:var(--ink-soft);font-style:italic;margin-top:1px;line-height:1.4}
+.fr-makes{font-size:9px;font-weight:700;background:#efe7fb;color:#7b3fb0;padding:1px 5px;border-radius:4px;margin-left:2px}
+.fr-steps{margin:3px 0 0;padding-left:18px;font-size:11px;color:var(--ink-soft);line-height:1.45}
+.fr-steps li{margin-bottom:1px}
+.info-steps{margin:0 0 10px;font-size:12.5px}
+.info-steps b{display:block;margin-bottom:3px}
+.info-steps ol{margin:0;padding-left:18px;color:var(--ink)}
+.info-steps li{margin-bottom:3px;line-height:1.4}
+.pr-steps{color:#555;font-size:10.5px;line-height:1.4}
+.food-row input.grams{text-align:right;padding:6px}
+.food-row select.portion{padding:6px;font-size:12px}
+.fr-tools{display:flex;gap:2px}
+.fr-tools button{border:none;background:none;cursor:pointer;color:var(--ink-soft);padding:3px 5px;border-radius:6px;font-size:13px}
+.fr-tools button:hover{background:var(--green-soft);color:var(--green)}
+.add-food{padding:8px 12px}
+.add-food button{font-size:13px;color:var(--green);background:none;border:1px dashed var(--line);border-radius:8px;padding:6px 10px;cursor:pointer;width:100%}
+.add-food button:hover{border-color:var(--green);background:var(--green-soft)}
+/* dish name + cooking guidance */
+.meal-dish{font-size:12px;font-weight:600;color:var(--green);margin-left:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:42%}
+.meal-cook{margin:2px 12px 10px;padding:9px 11px;background:#f7faf8;border:1px solid #e4efe8;border-left:3px solid var(--green);border-radius:8px;display:flex;flex-direction:column;gap:5px}
+.mc-line{display:flex;gap:7px;align-items:flex-start;font-size:11.5px;line-height:1.45;color:#3c4641}
+.mc-ic{flex:0 0 auto;font-size:12px;line-height:1.4}
+.steps{margin:.25em 0 .1em;padding-left:17px}
+.steps li{margin:.18em 0}
+.mc-opt{color:var(--ink-soft)}
+.mc-opt b{color:#5b6660}
+
+/* scorecard */
+.bigscore{display:flex;justify-content:center;margin:6px 0 4px}
+.ring{--p:0;width:120px;height:120px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:conic-gradient(var(--green) calc(var(--p)*1%), var(--line) 0);position:relative}
+.ring::before{content:"";position:absolute;inset:10px;background:var(--panel);border-radius:50%}
+.ring span{position:relative;font-size:30px;font-weight:700;line-height:1}
+.ring small{position:relative;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);margin-top:3px}
+.badge{float:right;font-size:12px;font-weight:700;padding:1px 8px;border-radius:999px;background:var(--green-soft);color:var(--green)}
+.badge.warn{background:#fbf0db;color:var(--amber)}
+.badge.bad{background:#fbe6e3;color:var(--red)}
+
+.bars{display:flex;flex-direction:column;gap:7px}
+.bar{font-size:12px}
+.bar .bl{display:flex;justify-content:space-between;margin-bottom:2px;font-variant-numeric:tabular-nums}
+.bar .bl b{font-weight:600}
+.bar .bl .v{color:var(--ink-soft)}
+.track{height:7px;background:var(--line);border-radius:5px;overflow:hidden}
+.fill{height:100%;border-radius:5px;background:var(--green);width:0;transition:width .25s}
+.fill.mid{background:var(--amber)} .fill.low{background:var(--red)} .fill.over{background:var(--red)}
+.bars.micro{max-height:none}
+.micro .bar .bl b{font-weight:500}
+
+.legend{display:flex;align-items:center;gap:6px;font-size:10.5px;color:var(--ink-soft);margin-bottom:8px;flex-wrap:wrap}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-left:6px}
+.legend i.ok{background:var(--green)}.legend i.mid{background:var(--amber)}.legend i.low{background:var(--red)}.legend i.over{background:#7b241c}
+
+.omega{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
+.omega .ocard{border:1px solid var(--line);border-radius:9px;padding:8px 10px}
+.omega .ocard .ov{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
+.omega .ocard .ov.low{color:var(--red)}
+.omega .ocard .ol{font-size:11px;color:var(--ink-soft)}
+.omega .ocard.full{grid-column:1/3;display:flex;align-items:baseline;justify-content:space-between}
+.omega .pct{font-size:11px;color:var(--ink-soft)}
+
+/* picker modal */
+.backdrop{position:fixed;inset:0;background:rgba(20,28,24,.4);display:flex;align-items:flex-start;justify-content:center;padding-top:8vh;z-index:50}
+.backdrop.hidden{display:none}
+#dialogBackdrop{z-index:60}
+.dialog{width:min(440px,92vw);padding:0}
+.dialog-body{padding:20px 20px 10px;font-size:15px;line-height:1.5;white-space:pre-wrap}
+.dialog-input{margin:4px 20px 6px;width:calc(100% - 40px)}
+.dialog .hidden{display:none !important}
+.dialog-actions{display:flex;justify-content:flex-end;gap:8px;padding:12px 16px 16px}
+.picker{background:#fff;width:min(560px,92vw);max-height:78vh;border-radius:14px;box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden}
+.picker-head{display:flex;gap:8px;padding:12px;border-bottom:1px solid var(--line)}
+.picker-head input{font-size:15px}
+.picker-filters{padding:8px 12px;border-bottom:1px solid var(--line);margin:0}
+.picker-filters .chip.on{background:var(--green);border-color:var(--green);color:#fff}
+.picker-warn{background:#fbf0db;color:var(--amber);font-size:12px;padding:8px 12px}
+.picker-warn.hidden{display:none}
+.picker-list{overflow:auto;padding:6px}
+.picker-cat{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);padding:8px 10px 4px}
+.picker-item{display:flex;justify-content:space-between;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer}
+.picker-item:hover{background:var(--green-soft)}
+.picker-item .pi-macros{font-size:11.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap}
+.picker-item.excluded{opacity:.42}
+.picker-item .pi-flag{font-size:10px;color:var(--red);margin-left:6px}
+
+/* day tabs (7-day week) */
+.day-tabs{display:flex;gap:5px;flex-wrap:wrap;margin:0 0 10px}
+.day-tab{flex:1 1 0;min-width:62px;display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 4px;
+  border:1px solid var(--line);border-radius:9px;background:#fff;cursor:pointer;transition:.12s}
+.day-tab b{font-size:12px}
+.day-tab span{font-size:10px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.day-tab:hover{border-color:var(--green)}
+.day-tab.filled{background:var(--green-soft)}
+.day-tab.on{background:var(--green);border-color:var(--green)}
+.day-tab.on b,.day-tab.on span{color:#fff}
+.plan-actions-row{margin:0 0 12px}
+.pnote{resize:vertical;min-height:48px;font:inherit}
+
+/* grocery modal */
+.grocery-body .g-sub{font-size:12px;color:var(--ink-soft);margin:0 0 10px}
+.g-sec{margin-bottom:12px}
+.g-sec h4{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--green);margin:0 0 5px;border-bottom:1px solid var(--line);padding-bottom:3px}
+.g-item{display:flex;align-items:center;gap:8px;padding:3px 2px;font-size:13px}
+.g-item input{width:auto;margin:0}
+.g-item span{flex:1}
+.g-item em{color:var(--ink-soft);font-style:normal;font-size:12px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.g-brands{display:block;font-size:10.5px;color:#9a7fc0;margin-top:1px}
+.info-brands{font-size:12px;color:#7b3fb0;background:#f6f1fc;padding:6px 9px;border-radius:7px;margin:0 0 8px}
+.pr-brands{display:block;font-size:9.5px;color:#888;margin-top:0}
+
+/* form badges (dry / cooked / recipe) */
+.form-badge{font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;letter-spacing:.04em;margin-left:5px;vertical-align:middle}
+.form-badge.dry{background:#fbf0db;color:#b9791a}
+.form-badge.cooked{background:#e7f3ec;color:#1f7a4d}
+.form-badge.recipe{background:#efe7fb;color:#7b3fb0}
+
+/* supplement chips (green when on) */
+.schip{font-size:12px;padding:5px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;cursor:pointer;user-select:none;transition:.12s}
+.schip:hover{border-color:var(--green)}
+.schip.on{background:var(--green);border-color:var(--green);color:#fff}
+
+/* plan action buttons */
+.plan-actions{display:flex;gap:6px;flex-wrap:wrap}
+
+/* verify / info modal */
+.infomodal{max-height:82vh}
+.info-body{padding:16px;overflow:auto}
+.info-title{margin:0 0 6px;font-size:16px}
+.info-body .src{font-size:12px;color:var(--ink-soft);margin:0 0 8px}
+.info-body .formline{font-size:12.5px;background:#f4f7f5;color:var(--ink);padding:8px 10px;border-radius:8px;margin:0 0 10px;border:1px solid var(--line)}
+.infotab{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:10px}
+.infotab td{padding:6px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.infotab td:first-child{color:var(--ink-soft);width:42%}
+.xcheck{font-size:12.5px;padding:8px 10px;border-radius:8px;margin-bottom:8px}
+.xcheck.ok{background:var(--green-soft);color:var(--green)}
+.xcheck.warn{background:#fbe6e3;color:var(--red)}
+.info-body .omegaline{font-size:12px;color:var(--ink-soft);margin:0}
+
+/* print */
+#printArea{display:none}
+@page{margin:14mm}
+@media print{
+  body{background:#fff}
+  #app,.backdrop{display:none !important}
+  #printArea{display:block;padding:0;color:#000}
+  /* keep the green brand bar, cards & badges in the printed/PDF deliverable (browsers strip backgrounds by default) */
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+.pr-wrap{max-width:720px;margin:0 auto;padding:28px;font-size:13px;color:#111}
+.pr-head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid #1f7a4d;padding-bottom:10px;margin-bottom:16px}
+.pr-head .pr-brand{font-size:20px;font-weight:700;color:#1f7a4d}
+.pr-head .pr-meta{text-align:right;font-size:12px;color:#444}
+.pr-targets{display:flex;gap:18px;background:#f4f7f5;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-variant-numeric:tabular-nums}
+.pr-targets div span{display:block;font-size:11px;color:#666}
+.pr-targets div b{font-size:16px}
+.pr-meal{margin-bottom:14px;break-inside:avoid}
+.pr-meal h4{margin:0 0 4px;font-size:14px;border-bottom:1px solid #ddd;padding-bottom:3px}
+.pr-meal table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.pr-meal td{padding:3px 6px}
+.pr-meal td.amt{color:#444;width:140px}
+.pr-meal td.mac{text-align:right;color:#666;font-size:11px;white-space:nowrap;width:150px}
+.pr-tot{font-weight:700;border-top:1px solid #aaa}
+.pr-recipe-row td{font-size:11px;color:#666;font-style:italic;padding:1px 6px 5px 18px}
+.pr-dish{font-weight:600;color:#1f7a4d;font-size:12.5px}
+.pr-cook{margin:5px 0 2px;padding:7px 10px;background:#f3f7f4;border-left:2px solid #1f7a4d;border-radius:5px;font-size:10.5px;line-height:1.5;color:#333}
+.pr-cook div{margin-bottom:2px}
+.pr-cook b{color:#1f7a4d}
+.pr-section{margin-top:18px}
+.pr-micro{columns:2;font-size:12px}
+.pr-micro div{break-inside:avoid;display:flex;justify-content:space-between;padding:2px 0}
+.pr-flag{font-size:11px;color:#a01b0a;background:#fbe6e3;border:1px solid #f0c0bb;padding:8px 10px;border-radius:6px;margin-top:12px}
+.pr-disclaimer{font-size:10.5px;color:#444;background:#f4f7f5;border:1px solid #e0e6e1;padding:8px 10px;border-radius:6px;margin-top:10px;line-height:1.45}
+.pr-attest{font-size:10.5px;color:#666;margin-top:6px}
+.pr-why{font-size:12.5px;line-height:1.5;color:#222;background:#f4f7f5;border-left:3px solid #1f7a4d;padding:10px 12px;border-radius:0 8px 8px 0;margin:0 0 10px}
+.pr-note{font-size:13.5px;line-height:1.55;color:#2a3a31;background:#f3f7f4;padding:14px 16px;border-radius:10px;margin:0 0 14px;white-space:pre-wrap}
+.pr-sig{margin-top:8px;font-size:13px;color:#1f7a4d;font-weight:600}
+.pr-day{margin-bottom:14px;break-inside:avoid}
+.pr-dayname{font-size:14.5px;color:#1f7a4d;border-bottom:2px solid #1f7a4d;padding-bottom:3px;margin:0 0 8px;display:flex;justify-content:space-between;align-items:baseline}
+.pr-dayname span{font-size:11.5px;font-weight:600;color:#555;font-variant-numeric:tabular-nums}
+.pr-break{break-before:page}
+.pr-grocery{columns:2;column-gap:24px}
+.pr-gsec{break-inside:avoid;margin-bottom:8px}
+.pr-gsec h5{margin:0 0 3px;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#1f7a4d}
+.pr-gitem{font-size:11.5px;padding:1px 0;color:#222}
+.pr-sciwrap{display:flex;flex-direction:column;gap:7px}
+.pr-sci{font-size:11.5px;line-height:1.45;color:#222}
+.pr-sci b{color:#1f7a4d}
+.pr-sci a{color:#1f7a4d;text-decoration:none;font-size:10.5px}
+.pr-scifoot{font-size:10px;color:#888;margin-top:6px}
+.pr-howto{background:#f4f7f5;border-radius:8px;padding:10px 14px 10px 14px;margin:0 0 16px}
+.pr-howto h4{margin:0 0 5px;font-size:12.5px;color:#1f7a4d}
+.pr-howto ul{margin:0;padding-left:18px}
+.pr-howto li{font-size:11.5px;line-height:1.5;margin-bottom:3px;color:#222}
+.pr-close{font-size:12.5px;font-style:italic;color:#1f7a4d;background:#eef5f0;border-radius:8px;padding:10px 12px;margin:14px 0 10px;text-align:center}
+.pr-foot{margin-top:16px;font-size:10.5px;color:#888;border-top:1px solid #ddd;padding-top:8px}
+
+/* mobile (phones) — placed last so it overrides the base layout/food-row rules */
+@media(max-width:560px){
+  .topbar{gap:8px;padding:10px 12px}
+  .client-bar{flex-wrap:wrap}
+  .client-bar select{min-width:120px}
+  .top-actions{margin-left:0;width:100%}
+  .top-actions .btn{width:100%}
+  .layout{padding:10px;gap:10px}
+  .panel{padding:14px}
+  .row4{grid-template-columns:1fr 1fr}
+  .day-tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+  .day-tab{flex:0 0 auto;min-width:56px}
+  .food-row{grid-template-columns:1fr auto;row-gap:6px}
+  .food-row .food-name{grid-column:1 / 3}
+  .food-row input.grams{grid-column:1;width:100%}
+  .food-row select.portion{grid-column:2}
+  .food-row .fr-tools{grid-column:1 / 3;justify-content:flex-end}
+  .btn-sm{padding:9px 12px}
+  .fr-tools button,.meal-roll,.meal-del{padding:8px 9px;font-size:16px}
+  .chip,.schip{min-height:34px;display:inline-flex;align-items:center}
+}
+
+/* ===== supplement gap-fill suggestions ===== */
+.supp-suggest{margin-top:14px}
+.supp-suggest h3{margin:0 0 8px}
+.supp-rec{border:1px solid var(--line);border-radius:9px;padding:9px 11px;margin-bottom:8px;background:#fff}
+.supp-rec.on{border-color:var(--green);background:var(--green-soft)}
+.supp-rec-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.supp-rec-head b{font-size:13px}
+.supp-dose{font-size:11px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.supp-add{font:inherit;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;border:1px solid var(--green);background:#fff;color:var(--green);cursor:pointer;white-space:nowrap}
+.supp-rec.on .supp-add{background:var(--green);color:#fff}
+.supp-why{font-size:11.5px;color:var(--ink-soft);line-height:1.45;margin:5px 0 0}
+.supp-brands{display:flex;flex-direction:column;gap:4px;margin-top:7px}
+.supp-brand{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:11.5px;font-weight:600;color:var(--ink);text-decoration:none;border:1px solid var(--line);border-radius:7px;padding:5px 8px;background:#fafbfa}
+.supp-brand:hover{border-color:var(--green);background:#fff}
+.supp-cert{font-size:9.5px;font-weight:700;color:var(--green);background:var(--green-soft);border-radius:4px;padding:1px 5px}
+.supp-az{margin-left:auto;font-size:10.5px;color:var(--green);white-space:nowrap}
+/* grocery online section */
+.g-supp{border-top:2px solid var(--green-soft);margin-top:6px;padding-top:6px}
+.g-online{font-size:11px;font-weight:400;color:var(--green)}
+.g-brands a{color:var(--green);text-decoration:none}
+.g-brands a:hover{text-decoration:underline}
+/* PDF supplements */
+.pr-supp{font-size:11.5px;margin-bottom:5px;line-height:1.5}
+.pr-supp-dose{color:#777;font-size:10.5px}
+.pr-supp-brand{font-size:10.5px;color:#1f7a4d;padding-left:14px}
+.pr-supp-notes{font-size:11px;color:#444;margin:6px 0 0}
+.pr-supp-foot{font-size:9.5px;color:#999;margin:6px 0 0;font-style:italic}
+.supp-halal{font-size:11px;color:#8a6d1a;background:#fbf3dd;border:1px solid #f0e2b8;border-radius:7px;padding:7px 9px;margin-bottom:8px;line-height:1.45}
+/* macro calculator + calorie banking */
+.calc{margin:6px 0 10px;border:1px solid var(--line);border-radius:8px;padding:0 10px}
+.calc summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--green);padding:9px 2px;list-style:none}
+.calc summary::-webkit-details-marker{display:none}
+.calc summary::before{content:"▸ ";color:var(--ink-soft)}
+.calc[open] summary::before{content:"▾ "}
+.calc[open]{padding-bottom:10px}
+.bank-note{font-size:11px;color:#8a6d1a;background:#fbf3dd;border:1px solid #f0e2b8;border-radius:7px;padding:6px 9px;margin-bottom:8px}
+#pBankIntensity{margin-bottom:8px}
+/* gut-health card */
+.gut-card:empty{display:none}
+.gut-card{margin:2px 0 12px;padding:10px 12px;background:#f3f7f4;border:1px solid #d8e8de;border-radius:10px}
+.gut-head{display:flex;align-items:center;font-size:13px;font-weight:700;color:var(--green);margin-bottom:7px}
+.gut-score{margin-left:auto}
+.gut-plants{font-size:12px;color:var(--ink);display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.gut-plants b{font-size:16px}
+.gut-bar{flex:1;height:7px;background:#e3e6e1;border-radius:99px;overflow:hidden;min-width:50px}
+.gut-bar i{display:block;height:100%;background:var(--green)}
+.gut-plants.low .gut-bar i{background:var(--red)}
+.gut-plants.mid .gut-bar i{background:var(--amber)}
+.gut-plants.good .gut-bar i{background:#8bc34a}
+.gut-sub{font-size:11px;color:var(--ink-soft);line-height:1.4}
+/* references at the bottom of the printed plan */
+.pr-refs{margin-top:16px;border-top:1px solid #ddd;padding-top:10px;break-inside:avoid}
+.pr-refs h4{margin:0 0 6px;font-size:12.5px}
+.pr-refs ol{margin:0;padding-left:18px}
+.pr-refs li{font-size:10px;line-height:1.5;color:#444;margin-bottom:3px}
+.pr-refs a{color:#1f7a4d;word-break:break-all}
+/* diet overlays collapsible */
+.modes{margin:2px 0 10px;border:1px solid var(--line);border-radius:8px;padding:0 10px}
+.modes summary{cursor:pointer;font-size:13px;font-weight:600;padding:9px 2px;list-style:none}
+.modes summary::-webkit-details-marker{display:none}
+.modes summary::before{content:"▸ ";color:var(--ink-soft)}
+.modes[open] summary::before{content:"▾ "}
+.modes[open]{padding-bottom:6px}
+/* leucine flag */
+.meal-leu{background:#fbf3dd;color:#8a6d1a;font-size:11px;font-weight:600;padding:5px 12px;border-bottom:1px solid #f0e2b8}
+/* inline swap menu */
+.swap-menu{position:absolute;z-index:60;width:230px;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);padding:6px}
+.sm-head{font-size:10.5px;color:var(--ink-soft);padding:4px 6px 6px;line-height:1.3}
+.sm-opt{display:flex;flex-direction:column;align-items:flex-start;width:100%;text-align:left;border:none;background:#fafbfa;border-radius:7px;padding:6px 8px;margin-bottom:4px;cursor:pointer}
+.sm-opt:hover{background:var(--green-soft)}
+.sm-opt b{font-size:12px;color:var(--ink)}
+.sm-opt span{font-size:10px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.sm-none{font-size:11px;color:var(--ink-soft);padding:4px 6px}
+.sm-search{width:100%;border:none;background:none;color:var(--green);font-weight:600;font-size:11.5px;padding:6px;cursor:pointer;border-top:1px solid var(--line);margin-top:2px}
+.sm-search:hover{background:var(--green-soft);border-radius:6px}
+.amz-disc{font-size:10px;color:var(--ink-soft);font-style:italic;margin:8px 2px 0;line-height:1.4}
+
+/* idiot-proof cook disclaimer — small + muted */
+.meal-cook .mc-disc{font-size:10px;opacity:.62;font-style:italic}
+.pr-cook-disc{font-size:9px;color:#888;font-style:italic;margin-top:3px}
+
+/* ===== Client PDF in OB's own brand (2026-09-30) =====
+   Clients asked OB twice whether the plan was made by AI. The giveaway was the look: pastel rounded cards, a strip of
+   stat tiles, small letter-spaced green labels and grey helper text, which is how a generated document looks. This is
+   OB's own system instead, the one on his carousels and ob-health.com (tokens in ~/ob-carousel/lib/brand.js): Anton
+   headlines in deep brown, electric blue for the one thing to notice, Source Sans 3 for reading, thin tan rules, and
+   no tinted boxes. Scoped to .pr-wrap so it overrides the older .pr-* rules above. */
+.pr-wrap{--ob-brown:#3A2620;--ob-taupe:#8B7A70;--ob-tan:#E7DDD2;--ob-ink:#2B1D18;
+  font-family:'Source Sans 3','Source Sans Pro','Helvetica Neue',Arial,sans-serif;font-size:13px;line-height:1.45;
+  color:var(--ob-ink);max-width:720px;margin:0 auto;padding:6px 2px}
+.pr-wrap h1,.pr-wrap h2,.pr-wrap h3,.pr-wrap h4,.pr-wrap h5,.pr-wrap .pr-mark,.pr-wrap .pr-kicker,.pr-wrap .pr-sign{
+  font-family:'Anton',Impact,'Arial Narrow',sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.01em;color:var(--ob-brown)}
+.pr-wrap b,.pr-wrap strong{font-weight:700;color:var(--ob-brown)}
+.pr-wrap a{color:var(--ob-brown);text-decoration:underline;text-decoration-color:var(--ob-tan)}
+
+/* header: the carousel pattern (wordmark, headline, blue line, small caption, rule) */
+.pr-wrap .pr-head{display:block;border:0;border-bottom:1.5px solid var(--ob-tan);padding:0 0 12px;margin:0 0 16px}
+.pr-wrap .pr-mark{font-size:17px;line-height:1;margin:0 0 10px}
+.pr-wrap .pr-title{font-size:38px;line-height:1.02;margin:0}
+.pr-wrap .pr-kicker{font-size:19px;line-height:1.1;color:var(--ob-taupe);margin:4px 0 6px}
+.pr-wrap .pr-meta{text-align:left;font-size:12px;color:var(--ob-taupe);font-weight:600;letter-spacing:.02em}
+
+/* the coach's note: plain text, signed */
+.pr-wrap .pr-note{background:none;border:0;border-radius:0;padding:0;margin:0 0 14px;font-size:14px;line-height:1.55;color:var(--ob-ink)}
+.pr-wrap .pr-sig,.pr-wrap .pr-sign{margin-top:6px;font-family:'Anton',Impact,sans-serif;font-size:16px;color:var(--ob-brown);font-weight:400}
+
+/* daily numbers as OB's pills */
+.pr-wrap .pr-pills{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px}
+.pr-wrap .pill{display:inline-block;padding:4px 12px;border-radius:999px;font-weight:700;font-size:12px;letter-spacing:.03em;
+  text-transform:uppercase;border:1.5px solid var(--ob-brown);color:var(--ob-brown);font-variant-numeric:tabular-nums}
+.pr-wrap .pill.brown{background:var(--ob-brown);color:#fff}
+
+/* sections */
+.pr-wrap .pr-section{margin-top:14px}
+.pr-wrap .pr-section h4,.pr-wrap .pr-howto h4,.pr-wrap .pr-refs h4{font-size:20px;line-height:1.1;margin:0 0 6px;
+  padding-bottom:4px;border-bottom:1.5px solid var(--ob-tan)}
+.pr-wrap .pr-howto{background:none;border-radius:0;padding:0;margin:0 0 16px}
+.pr-wrap .pr-howto p{margin:.25em 0}
+.pr-wrap .pr-sub{font-size:11.5px;color:var(--ob-taupe);margin:0 0 6px}
+.pr-wrap .pr-callout{margin:.5em 0;padding:0 0 0 10px;border-left:3px solid var(--ob-tan);font-size:12.5px}
+.pr-wrap .pr-small{font-size:11.5px;color:#5a4a43}
+.pr-wrap .pr-tight{margin:.3em 0}
+
+/* tables (logging check, storage chart) */
+.pr-wrap .pr-grid{border-collapse:collapse;width:100%;margin:.3em 0}
+.pr-wrap .pr-grid th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ob-taupe);font-weight:700;
+  text-align:left;padding:4px 8px;border-bottom:1.5px solid var(--ob-brown)}
+.pr-wrap .pr-grid td{padding:3px 8px;border-bottom:1px solid var(--ob-tan);font-size:11.5px;vertical-align:top}
+.pr-wrap .pr-grid .r{text-align:right}
+
+/* days and meals */
+.pr-wrap .pr-day{margin-bottom:12px;break-inside:auto}
+.pr-wrap .pr-dayhead{margin:4px 0 10px;padding-bottom:5px;border-bottom:2px solid var(--ob-brown)}
+.pr-wrap .pr-dayhead h3{font-size:26px;line-height:1.05;margin:0}
+.pr-wrap .pr-daysum{font-size:12.5px;font-weight:700;color:var(--ob-taupe);margin-top:2px;font-variant-numeric:tabular-nums}
+.pr-wrap .pr-meal{margin-bottom:14px;break-inside:avoid}
+/* An option on a pick-one card may run on to the next page, but only between its numbered steps: its heading and food
+   table are one block (.pr-keep, which on the first option also carries the card's intro), and every other note line
+   stays whole and stays with the step before it. Kept whole, five options took a page each in a client's plan
+   (2026-10-05). The day's own meals stay whole: split, a Saturday lunch left its last steps alone at the top of a page. */
+.pr-wrap .pr-pick{break-inside:auto}
+.pr-wrap .pr-keep{break-inside:avoid}
+.pr-wrap .pr-pick .pr-cook{break-before:avoid}
+.pr-wrap .pr-pick .pr-cook > div{break-inside:avoid}
+.pr-wrap .pr-pick .pr-cook > div:has(> ol){break-inside:auto}
+.pr-wrap .pr-pick .pr-cook > div:not(:has(> ol)){break-before:avoid}
+.pr-wrap .pr-pick .pr-cook ol{break-before:avoid}
+.pr-wrap .pr-pick .pr-cook li{break-inside:avoid}
+.pr-wrap .pr-pick .pr-cook li:last-child{break-before:avoid}
+.pr-wrap .pr-mealhead{display:flex;align-items:baseline;gap:10px;margin:0 0 3px}
+.pr-wrap .pr-mealhead h4{font-size:18px;margin:0;border:0;padding:0}
+.pr-wrap .pr-dish{font-weight:700;color:var(--ob-brown);font-size:13px}
+.pr-wrap .pr-tbl{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.pr-wrap .pr-tbl th{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--ob-taupe);font-weight:700;
+  padding:3px 6px;border-bottom:1.5px solid var(--ob-brown);text-align:left}
+.pr-wrap .pr-tbl td{padding:3px 6px;border-bottom:1px solid var(--ob-tan);font-size:12px}
+.pr-wrap .pr-tbl .a{width:150px;color:#4a3a33}
+.pr-wrap .pr-tbl .n{width:52px;text-align:right}
+/* grams-only plans (Food + Amount): a narrower table so the amount sits beside the food, not 400px away (2026-10-08) */
+.pr-wrap .pr-tbl.pr-grams{width:78%}
+.pr-wrap .pr-tbl.pr-grams .a{width:42%}
+/* a grams-only plan prints compact (two-column tables, tighter recipe lines), so a volume plan's bigger meals still print
+   a day on two pages (a client, 2026-10-09: the dessert fell onto a third page every day, 27 pages) */
+.pr-wrap .pr-tbl.pr-grams td{padding:1px 6px}
+.pr-wrap.pr-compact .pr-meal{margin-bottom:9px}
+.pr-wrap.pr-compact .pr-mealhead h4{font-size:16px}
+.pr-wrap.pr-compact .pr-tbl th{padding-top:1px;padding-bottom:1px}
+.pr-wrap.pr-compact .pr-cook{line-height:1.3;margin:3px 0 1px}
+.pr-wrap.pr-compact .pr-cook div{margin-bottom:1px}
+.pr-wrap.pr-compact .steps{margin:.1em 0 .1em}
+.pr-wrap.pr-compact .pr-micro div{padding:1px 0}
+.pr-wrap.pr-compact .pr-close{margin:12px 0 6px}
+.pr-wrap.pr-compact .pr-foot{margin-top:10px;padding-top:5px}
+/* build-your-own lists (a client, 2026-10-09): two columns per group, each group kept whole */
+.pr-wrap .pr-bgroup{break-inside:avoid;margin:.35em 0 .2em}
+.pr-wrap .pr-bgroup h4{font-size:15px;margin:.4em 0 .1em}
+.pr-wrap .pr-blist{columns:2;column-gap:26px;margin:.15em 0 .3em;padding-left:18px;font-size:12px}
+.pr-wrap .pr-blist li{break-inside:avoid;margin-bottom:1px}
+.pr-wrap .pr-blist.pr-bideas{columns:1}
+.pr-wrap .pr-blist.pr-b1col{columns:1}   /* a list whose names run long (the beef's shelf name wrapped its grams) */
+.pr-wrap .pr-bnoscale{margin:.5em 0 .2em}
+.pr-wrap .pr-bblock{break-inside:avoid;margin:.8em 0 .3em;padding-top:.35em;border-top:1px solid #ddd}
+.pr-wrap .pr-bblock h4.pr-bmeal{font-size:17px;margin:.1em 0 .15em;text-transform:uppercase;letter-spacing:.02em}
+.pr-wrap .pr-bblock .pr-bgroup h5{font-size:12.5px;margin:.35em 0 .05em;text-transform:uppercase;letter-spacing:.03em}
+.pr-wrap .pr-tbl tr.pr-tot td{font-weight:700;color:var(--ob-brown);border-bottom:0;border-top:1.5px solid var(--ob-brown)}
+.pr-wrap .pr-recipe-row td{font-size:11px;color:#5a4a43;font-style:normal;padding:2px 6px 6px 16px}
+.pr-wrap .pr-cook{margin:6px 0 2px;padding:0 0 0 10px;background:none;border:0;border-left:3px solid var(--ob-tan);border-radius:0;
+  font-size:11.5px;line-height:1.5;color:var(--ob-ink)}
+.pr-wrap .pr-cook b{color:var(--ob-brown)}
+.pr-wrap .pr-cook div{margin-bottom:3px}
+.pr-wrap .steps{margin:.15em 0 .2em;padding-left:18px}
+
+/* grocery */
+.pr-wrap .pr-grocery{columns:2;column-gap:26px}
+.pr-wrap .pr-gsec{break-inside:avoid;margin-bottom:7px}
+.pr-wrap .pr-gsec h5{font-size:14px;color:var(--ob-brown);letter-spacing:.02em;margin:0 0 3px;text-transform:uppercase}
+.pr-wrap .pr-gitem{font-size:11.5px;padding:0;color:var(--ob-ink)}
+.pr-wrap .pr-brands{font-size:10px;color:var(--ob-taupe)}
+.pr-wrap .pr-cookhead{font-size:15px;margin:.4em 0 .1em}
+
+/* supplements, micronutrients, science, references */
+.pr-wrap .pr-supp{font-size:12px}
+.pr-wrap .pr-supp-dose{color:#4a3a33;font-size:11.5px}
+.pr-wrap .pr-supp-brand{color:var(--ob-taupe);font-size:11px}
+.pr-wrap .pr-supp-foot,.pr-wrap .pr-scifoot{font-style:normal;color:var(--ob-taupe);font-size:10px}
+.pr-wrap .pr-micro div{border-bottom:1px solid var(--ob-tan);padding:2px 0}
+.pr-wrap .pr-micro{break-inside:avoid}   /* the vitamin table split across two pages (2026-10-08) */
+.pr-wrap .pr-microkeep{break-inside:avoid}   /* and its heading goes with it: "Micronutrient coverage" sat alone at the foot of a client's page 18 (2026-10-08) */
+.pr-wrap .pr-sci b{color:var(--ob-brown)}
+.pr-wrap .pr-sci a,.pr-wrap .pr-refs a{color:var(--ob-brown)}
+.pr-wrap .pr-refs{border-top:0;padding-top:0}
+.pr-wrap .pr-refs li{color:#4a3a33}
+
+/* the close and the small print */
+.pr-wrap .pr-close{background:none;border-radius:0;padding:0;margin:18px 0 8px;font-style:normal;text-align:left;font-size:13.5px;color:var(--ob-ink)}
+.pr-wrap .pr-flag{background:none;border:0;border-left:3px solid #B3261E;border-radius:0;padding:2px 0 2px 10px;color:#7a1a14}
+.pr-wrap .pr-disclaimer{background:none;border:0;border-top:1px solid var(--ob-tan);border-radius:0;padding:8px 0 0;color:var(--ob-taupe);font-size:10px}
+.pr-wrap .pr-attest,.pr-wrap .pr-foot{color:var(--ob-taupe);font-size:10px;border-top:0}
+.pr-wrap .pr-aanote{font-size:12px;color:#4a3a33}
+/* each day or menu block starts its own page: a day heading was left alone at the foot of page 1 (2026-09-30) */
+.pr-wrap .pr-day{break-before:page}
+.pr-wrap .pr-dayhead{break-after:avoid}
+/* a DOI split mid-number across two lines ("S0140-6736(18)3 / 1809-9"): links wrap as a whole (2026-10-01) */
+.pr-wrap .pr-refs a,.pr-wrap .pr-sci a{white-space:nowrap}
+/* an open meal (dinner out): a budget line instead of a table (2026-10-02) */
+.pr-wrap .pr-open .pr-opennote{margin:.3em 0 .6em;font-size:12.5px;border-left:3px solid var(--ob-tan);padding-left:10px}
+/* a single packaged item prints as one line (2026-10-02) */
+.pr-wrap .pr-ready .pr-readyline{margin:.2em 0 .6em;font-size:12.5px}
+/* pick-one card (a client's Saturday favourites, 2026-10-02): the other options sit under the meal, indented */
+.pr-wrap .pr-picks{margin:-4px 0 14px;padding:4px 0 0 12px;border-left:3px solid var(--ob-tan)}
+.pr-wrap .pr-picks .pr-picknote{margin:0 0 .6em;font-size:12.5px}
+.pr-wrap .pr-pick .pr-mealhead h4{font-size:15px}
+/* the options set a little tighter than the day's own meals: five of them took a page each (2026-10-05) */
+.pr-wrap .pr-pick{margin-bottom:10px}
+.pr-wrap .pr-pick .pr-tbl td{padding:2px 6px;font-size:11.5px}
+.pr-wrap .pr-pick .pr-cook{font-size:11px;line-height:1.42}
+.pr-wrap .pr-pickout{break-inside:avoid}
+/* version history (2026-10-14) */
+.picker.history{width:min(680px,94vw)}
+.hist-row{display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid var(--line);font-size:14px}
+.hist-row .hist-when{flex:1;min-width:0}
+.hist-row .hist-when small{display:block;color:#667;font-size:12px}
+.hist-row.current{background:#f3f8f5}
+.hist-diff{border-top:1px solid var(--line);padding:10px 14px;max-height:42vh;overflow:auto;font-size:13.5px;line-height:1.45}
+.hist-diff.hidden{display:none}
+.hist-diff ul{margin:.3em 0 .6em 1.1em;padding:0}
+.hist-diff .hist-msg{background:#f6f7f4;border:1px solid var(--line);border-radius:8px;padding:8px 10px;white-space:pre-wrap}
+/* change calories (2026-10-14) */
+.rt-form{display:flex;flex-direction:column;gap:8px;padding:12px 14px;font-size:14px}
+.rt-form input[type=number]{width:90px;margin:0 6px}
+.rt-form select{margin-left:6px}
+.rt-actions{display:flex;gap:8px;justify-content:flex-end}

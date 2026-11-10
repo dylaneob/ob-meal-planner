@@ -1,0 +1,69 @@
+{
+ "source": "USDA FSIS Food Standards and Labeling Policy Book (2005), https://www.fsis.usda.gov/guidelines/2005-0003",
+ "basis": "share of the finished plate weight (cooked grams) that must be the named protein; legal floors for commercial products, not targets",
+ "rules": [
+  {
+   "shape": "protein + one vegetable, or protein + sauce/gravy",
+   "min_share": 0.5,
+   "fsis_entry": "ENTREE category 2"
+  },
+  {
+   "shape": "protein + vegetable + gravy",
+   "min_share": 0.3,
+   "protein_plus_gravy_min_share": 0.5,
+   "fsis_entry": "ENTREE category 3"
+  },
+  {
+   "shape": "complete plate (protein + starch + vegetable)",
+   "min_share": 0.25,
+   "fsis_entry": "ENTREE category 4"
+  },
+  {
+   "shape": "closed sandwich or burger",
+   "min_share": 0.35,
+   "bread_max_share": 0.5,
+   "fsis_entry": "SANDWICH - CLOSED"
+  },
+  {
+   "shape": "open-faced sandwich or toast",
+   "min_share": 0.5,
+   "fsis_entry": "SANDWICH - OPEN"
+  },
+  {
+   "shape": "meat salad (tuna, ham)",
+   "min_share": 0.35,
+   "fsis_entry": "SALADS"
+  },
+  {
+   "shape": "poultry salad",
+   "min_share": 0.25,
+   "fsis_entry": "POULTRY STANDARDS: Poultry Salad"
+  },
+  {
+   "shape": "stir-fry over rice, pepper-steak type",
+   "min_share": 0.3,
+   "fsis_entry": "CHINESE PEPPER STEAK"
+  },
+  {
+   "shape": "protein with rice",
+   "min_share": 0.15,
+   "fsis_entry": "POULTRY STANDARDS: Poultry with Rice"
+  },
+  {
+   "shape": "fried rice with protein",
+   "min_share": 0.1,
+   "fsis_entry": "FRIED RICE WITH MEAT"
+  },
+  {
+   "shape": "burrito",
+   "min_share": 0.15,
+   "min_share_poultry": 0.1,
+   "fsis_entry": "BURRITOS"
+  },
+  {
+   "shape": "fajita wrap",
+   "min_share": 0.15,
+   "fsis_entry": "FAJITAS"
+  }
+ ]
+}

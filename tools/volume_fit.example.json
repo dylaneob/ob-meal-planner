@@ -1,0 +1,428 @@
+{
+ "targets": {
+  "kcal": [
+   1396,
+   1404
+  ],
+  "protein": [
+   106,
+   114
+  ],
+  "fat": [
+   41.5,
+   48
+  ],
+  "fibre_min": 31,
+  "carb_minus_half_fibre": [
+   129,
+   149
+  ],
+  "fibre_max": 40
+ },
+ "order": [
+  "Pre",
+  "Breakfast",
+  "Snack",
+  "Lunch",
+  "Dinner",
+  "Dessert"
+ ],
+ "bands": {
+  "Breakfast": [
+   270,
+   340
+  ],
+  "Snack": [
+   140,
+   190
+  ],
+  "Lunch": [
+   320,
+   380
+  ],
+  "Dinner": [
+   280,
+   340
+  ],
+  "Dessert": [
+   190,
+   270
+  ]
+ },
+ "pairs": [
+  [
+   "Lunch",
+   28,
+   5
+  ],
+  [
+   "Dinner",
+   28,
+   5
+  ]
+ ],
+ "menu": {
+  "S": {
+   "Pre": [
+    [
+     "Banana, raw",
+     101,
+     101
+    ]
+   ],
+   "Snack": [
+    [
+     "Whey protein powder",
+     20,
+     25
+    ],
+    [
+     "Matcha green tea powder",
+     2,
+     2
+    ],
+    [
+     "Almond milk, unsweetened",
+     200,
+     320,
+     10
+    ],
+    [
+     "Papaya, raw",
+     80,
+     200
+    ]
+   ]
+  },
+  "A": {
+   "Breakfast": [
+    [
+     "Oats, dry (raw)",
+     25,
+     35
+    ],
+    [
+     "Egg, whole, raw",
+     50,
+     50
+    ],
+    [
+     "Egg white, raw",
+     60,
+     160
+    ],
+    [
+     "Greek yogurt, plain, nonfat",
+     30,
+     80
+    ],
+    [
+     "Raspberries, raw",
+     80,
+     150
+    ],
+    [
+     "Peanut butter, smooth",
+     5,
+     10
+    ]
+   ],
+   "Lunch": [
+    [
+     "Beef, ground 93/7, raw",
+     90,
+     115
+    ],
+    [
+     "Sweet potato, raw",
+     60,
+     130
+    ],
+    [
+     "Romaine lettuce",
+     80,
+     110
+    ],
+    [
+     "Tomato, raw",
+     80,
+     120
+    ],
+    [
+     "Cucumber, raw",
+     150,
+     200
+    ],
+    [
+     "Pumpkin seeds",
+     0,
+     10
+    ],
+    [
+     "Avocado, raw",
+     15,
+     50
+    ],
+    [
+     "Feta cheese",
+     5,
+     15
+    ]
+   ],
+   "Dinner": [
+    [
+     "Egg, whole, raw",
+     50,
+     50
+    ],
+    [
+     "Egg white, raw",
+     80,
+     200
+    ],
+    [
+     "Spinach, raw",
+     90,
+     110
+    ],
+    [
+     "Tomato, raw",
+     0,
+     120
+    ],
+    [
+     "Salsa",
+     40,
+     60
+    ],
+    [
+     "Avocado, raw",
+     0,
+     40
+    ],
+    [
+     "Feta cheese",
+     5,
+     20
+    ],
+    [
+     "Corn tortilla",
+     48,
+     72
+    ]
+   ],
+   "Dessert": [
+    [
+     "Greek yogurt, plain, nonfat",
+     130,
+     230
+    ],
+    [
+     "Whey protein powder",
+     5,
+     15
+    ],
+    [
+     "Cocoa powder, unsweetened",
+     5,
+     5
+    ],
+    [
+     "Blueberries, raw",
+     80,
+     150
+    ],
+    [
+     "Rice cake, brown rice",
+     9,
+     9
+    ],
+    [
+     "Peanut butter, smooth",
+     5,
+     15
+    ]
+   ]
+  },
+  "B": {
+   "Breakfast": [
+    [
+     "Oats, dry (raw)",
+     15,
+     35
+    ],
+    [
+     "Chia seeds",
+     5,
+     20
+    ],
+    [
+     "Whey protein powder",
+     0,
+     20
+    ],
+    [
+     "Almond milk, unsweetened",
+     80,
+     150,
+     10
+    ],
+    [
+     "Greek yogurt, plain, nonfat",
+     100,
+     200
+    ],
+    [
+     "Raspberries, raw",
+     40,
+     150
+    ],
+    [
+     "Kiwifruit, raw",
+     35,
+     70,
+     35
+    ]
+   ],
+   "Lunch": [
+    [
+     "Salmon, Atlantic farmed, raw",
+     85,
+     110
+    ],
+    [
+     "Corn tortilla",
+     48,
+     72
+    ],
+    [
+     "Romaine lettuce",
+     60,
+     110
+    ],
+    [
+     "Avocado, raw",
+     15,
+     60
+    ],
+    [
+     "Salsa",
+     40,
+     60
+    ],
+    [
+     "Greek yogurt, plain, nonfat",
+     30,
+     60
+    ],
+    [
+     "Cucumber, raw",
+     150,
+     200
+    ]
+   ],
+   "Dinner": [
+    [
+     "Turkey, ground 93/7, raw",
+     100,
+     130
+    ],
+    [
+     "Cauliflower, raw",
+     150,
+     250
+    ],
+    [
+     "Zucchini, raw",
+     200,
+     300
+    ],
+    [
+     "Spinach, raw",
+     60,
+     60
+    ],
+    [
+     "Romaine lettuce",
+     50,
+     50
+    ],
+    [
+     "Tomato, raw",
+     80,
+     80
+    ],
+    [
+     "Avocado, raw",
+     15,
+     50
+    ],
+    [
+     "Greek yogurt, plain, nonfat",
+     40,
+     40
+    ]
+   ],
+   "Dessert": [
+    [
+     "Whey protein powder",
+     10,
+     25
+    ],
+    [
+     "Oats, dry (raw)",
+     10,
+     15
+    ],
+    [
+     "Cocoa powder, unsweetened",
+     6,
+     6
+    ],
+    [
+     "Egg white, raw",
+     30,
+     60
+    ],
+    [
+     "Almond milk, unsweetened",
+     40,
+     80,
+     10
+    ],
+    [
+     "Medjool dates",
+     12,
+     12
+    ],
+    [
+     "Blueberries, raw",
+     50,
+     150
+    ]
+   ]
+  }
+ },
+ "min_grams": [
+  [
+   "A",
+   "Breakfast",
+   300
+  ],
+  [
+   "B",
+   "Breakfast",
+   270
+  ],
+  [
+   "A",
+   "Dessert",
+   220
+  ],
+  [
+   "B",
+   "Dessert",
+   160
+  ]
+ ]
+}

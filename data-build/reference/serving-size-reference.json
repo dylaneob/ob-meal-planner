@@ -1,0 +1,403 @@
+{
+  "_meta": {
+    "purpose": "Authoritative REALISTIC serving-size reference so a generated meal plan never shows weird portions (no '2.25 slices of bread', '5 tortillas for 1.5 oz turkey', '2 berries = 120 g'). For each food category: the normal human serving (household unit + grams), the realistic min/max a coach would actually plate, whether the food comes in WHOLE COUNTABLE units (snap to integers) or is SCOOPABLE/weighable (snap to clean grams), and the typical grams-per-unit.",
+    "how_to_use": [
+      "When the planner picks grams for a food, snap to this reference instead of emitting raw decimals.",
+      "countable=true  -> round the household quantity to a whole number of units (1, 2, 3 eggs/slices/tortillas), then grams = units * grams_per_unit. Never plate 2.25 slices or 0.4 eggs.",
+      "countable=false -> snap grams to the food's scoop_step (e.g. 5 g for oils/nut butter, 10 g for most foods, 25 g for cooked grains/proteins) and keep within [min_g, max_g].",
+      "If the macro target needs more than max_g of one food, add a second food rather than plating an absurd single portion (the 'don't make someone eat 5 tortillas' rule).",
+      "serving_g is the DEFAULT 'one normal serving' to seed a portion before macro-fitting. min_g / max_g are the realistic plating bounds a coach would accept."
+    ],
+    "primary_sources": [
+      "FDA Reference Amounts Customarily Consumed (RACC), 21 CFR 101.12(b) - the federal legal definition of one normal eating-occasion serving. Anchor for serving_g.",
+      "USDA FoodData Central (SR Legacy / FNDDS) food_portion gram weights - anchor for grams_per_unit of countable items and cup/tbsp weights.",
+      "British Dietetic Association (BDA) Food Fact Sheet 'Portion Sizes' - dietitian-facing plating portions with household + handful measures. Anchor for realistic coach min/max.",
+      "USDA FDA grading standard: USDA Large egg = 50 g (shelled); medium 44 g, extra-large 56 g."
+    ],
+    "source_urls": [
+      "https://www.law.cornell.edu/cfr/text/21/101.12",
+      "https://fdc.nal.usda.gov/",
+      "https://www.bda.uk.com/resource/food-facts-portion-sizes.html",
+      "https://www.fda.gov/media/102587/download"
+    ],
+    "conventions": {
+      "weighing_state": "All gram values are the EDIBLE PORTION in the state the food is normally weighed for a plan: proteins/grains/legumes COOKED; veg/fruit RAW unless noted; fats/oils/nut-butter/condiments as-is. Matches the cooked/raw 'form' flag already on each food in foods.js.",
+      "countable_meaning": "true = food is eaten as discrete whole pieces (egg, bread slice, tortilla, string cheese, medium fruit). Quantity must round to whole units. false = scoopable/poured/weighable (rice, oil, yogurt, ground meat) - snap grams instead.",
+      "scoop_step_g": "Smallest gram increment to snap a non-countable food to, so portions read clean (e.g. 120 g not 117.3 g)."
+    }
+  },
+
+  "categories": {
+
+    "proteins_meat_poultry": {
+      "applies_to": ["Chicken breast/thigh cooked", "Turkey breast cooked", "Ground turkey/beef/chicken/pork cooked", "Beef top round/sirloin cooked", "Bison/lamb/venison ground cooked", "Pork loin cooked"],
+      "weighing_state": "cooked",
+      "countable": false,
+      "scoop_step_g": 25,
+      "serving_g": 113,
+      "serving_household": "4 oz cooked (palm-sized)",
+      "min_g": 85,
+      "max_g": 227,
+      "min_household": "3 oz / deck of cards (RACC + 'deck of cards' rule)",
+      "max_household": "8 oz cooked (big-eater / high-protein dinner ceiling)",
+      "notes": "RACC for a meat main = 85 g (3 oz) no-sauce, 140 g (5 oz) with sauce. BDA plates 90 g. Coaches commonly run 113-170 g cooked for fat-loss protein targets. Above ~227 g cooked in one sitting reads as unrealistic for one person - split across meals.",
+      "source": "FDA RACC 85 g/140 g; BDA 90 g (deck of cards); USDA cooked-meat 100 g reference."
+    },
+
+    "proteins_fish_seafood": {
+      "applies_to": ["Salmon cooked", "Cod/tilapia/snapper cooked", "Tuna canned", "Shrimp cooked", "White fish fillet"],
+      "weighing_state": "cooked",
+      "countable": false,
+      "scoop_step_g": 25,
+      "serving_g": 140,
+      "serving_household": "1 fillet / palm of hand (5 oz)",
+      "min_g": 85,
+      "max_g": 198,
+      "min_household": "3 oz (RACC)",
+      "max_household": "7 oz fillet",
+      "notes": "BDA plates fish at 140 g (palm of hand) for both white and oily fish - larger than the 85 g meat RACC because fish is leaner/less dense. A standard salmon fillet runs 113-170 g cooked. Canned tuna: 1 drained 5 oz can = ~120 g drained, snap to that.",
+      "source": "BDA 140 g (palm); FDA RACC fish 85 g no-sauce."
+    },
+
+    "eggs": {
+      "applies_to": ["Egg, whole, cooked/raw", "Egg white"],
+      "weighing_state": "cooked or raw (same shelled weight)",
+      "countable": true,
+      "unit_label": "large egg",
+      "grams_per_unit": 50,
+      "serving_units": 2,
+      "serving_g": 100,
+      "serving_household": "2 large eggs",
+      "min_units": 1,
+      "max_units": 4,
+      "min_g": 50,
+      "max_g": 200,
+      "egg_white_grams_per_unit": 33,
+      "notes": "ALWAYS round to whole eggs - never plate 1.4 eggs. USDA grading: large = 50 g shelled, medium 44 g, extra-large 56 g, jumbo 63 g. One large egg WHITE = ~33 g. RACC = 50 g (1 large). Normal breakfast = 2-3 whole eggs; add egg whites (countable, 33 g each) to push protein without more yolk fat.",
+      "source": "USDA/FDA egg grade standard (large = 50 g); FDA RACC eggs 50 g."
+    },
+
+    "tofu_plant_protein": {
+      "applies_to": ["Tofu firm/extra-firm", "Tempeh", "Edamame shelled"],
+      "weighing_state": "as-is (drained)",
+      "countable": false,
+      "scoop_step_g": 25,
+      "serving_g": 113,
+      "serving_household": "1/2 block firm tofu (about 3 oz)",
+      "min_g": 85,
+      "max_g": 226,
+      "min_household": "1/4 block (3 oz / 85 g)",
+      "max_household": "1 full block (about 1/2 a 14 oz package per person ceiling)",
+      "notes": "A standard US firm-tofu block = 396-454 g (14-16 oz). Plate in clean fractions of a block: 1/4 block ~100 g, 1/2 block ~200 g. RACC for tofu = 85 g. Tempeh is denser - serving 85-113 g.",
+      "source": "FDA RACC tofu 85 g; standard 14 oz block."
+    },
+
+    "grains_rice_quinoa_pasta_cooked": {
+      "applies_to": ["White/brown rice cooked", "Quinoa cooked", "Pasta cooked", "Whole-wheat pasta cooked", "Couscous/farro/barley cooked"],
+      "weighing_state": "cooked",
+      "countable": false,
+      "scoop_step_g": 25,
+      "serving_g": 150,
+      "serving_household": "about 1 cup cooked (3/4-1 cup)",
+      "min_g": 75,
+      "max_g": 250,
+      "min_household": "1/2 cup cooked",
+      "max_household": "1.5 cups cooked",
+      "cup_weights_g": {
+        "white_rice_cooked": 158,
+        "brown_rice_cooked": 195,
+        "quinoa_cooked": 185,
+        "pasta_cooked": 140,
+        "whole_wheat_pasta_cooked": 140,
+        "couscous_cooked": 157
+      },
+      "notes": "RACC for cooked rice/pasta = 140 g (~1 cup). BDA plates 150 g cooked. Snap to clean half-cup steps: 1/2 cup, 3/4 cup, 1 cup, 1.5 cups. Never plate '0.65 cup'. Cooked-grain cup weights differ by grain (rice ~158 g, quinoa 185 g, pasta 140 g) - use cup_weights_g, not a single number.",
+      "source": "FDA RACC 140 g; BDA 150 g; USDA FoodData Central cooked-grain cup weights."
+    },
+
+    "grains_oats_dry": {
+      "applies_to": ["Oats dry/raw (rolled or steel-cut)"],
+      "weighing_state": "dry (raw), as weighed before cooking",
+      "countable": false,
+      "scoop_step_g": 5,
+      "serving_g": 40,
+      "serving_household": "1/2 cup dry rolled oats",
+      "min_g": 30,
+      "max_g": 80,
+      "min_household": "1/3 cup dry",
+      "max_household": "1 cup dry (big breakfast)",
+      "cup_weights_g": { "rolled_oats_dry": 81, "steel_cut_oats_dry": 45 },
+      "notes": "Oats are almost always weighed DRY in a plan. 1/2 cup dry rolled oats = ~40 g (the label serving). RACC for cereal = 40 g. Don't confuse dry vs cooked: 40 g dry oats becomes ~1 cup cooked. Plate 30-60 g dry for most; 80 g dry is a very large bowl.",
+      "source": "FDA RACC cereal 40 g; oat label serving 40 g (1/2 cup dry)."
+    },
+
+    "grains_bread": {
+      "applies_to": ["White bread", "Whole-wheat bread", "Sourdough", "Sandwich/sliced bread"],
+      "weighing_state": "as-is",
+      "countable": true,
+      "unit_label": "slice",
+      "grams_per_unit": 32,
+      "serving_units": 2,
+      "serving_g": 64,
+      "serving_household": "2 slices (1 sandwich)",
+      "min_units": 1,
+      "max_units": 3,
+      "min_g": 28,
+      "max_g": 100,
+      "notes": "ALWAYS round to whole slices - never plate 2.25 slices. Standard sandwich slice = 28-36 g (use 32 g; thick/artisan slices 40-45 g, thin sandwich slices 25 g). RACC = 50 g (1-2 slices). A sandwich = 2 slices; toast = 1-2 slices. Bagel is a separate item (~95-110 g each, also countable).",
+      "source": "FDA RACC bread 50 g (1-2 slices); BDA 34-36 g/slice; USDA white-bread slice 25-28 g."
+    },
+
+    "grains_tortilla": {
+      "applies_to": ["Flour tortilla", "Corn tortilla", "Whole-wheat wrap"],
+      "weighing_state": "as-is",
+      "countable": true,
+      "unit_label": "tortilla",
+      "grams_per_unit_flour_medium": 45,
+      "grams_per_unit_flour_burrito": 72,
+      "grams_per_unit_corn": 28,
+      "serving_units": 2,
+      "serving_g": 90,
+      "serving_household": "2 medium flour tortillas (taco) OR 1 large burrito",
+      "min_units": 1,
+      "max_units": 3,
+      "min_g": 28,
+      "max_g": 144,
+      "notes": "ALWAYS round to whole tortillas. NEVER do the '5 tortillas for 1.5 oz turkey' footgun - if a wrap needs more filling, add filling, not tortillas. Sizes: corn (6 in) ~28 g, flour fajita/taco (8 in) ~45 g, flour burrito (10-12 in) ~72 g. Tacos = 2-3 small; burrito = 1 large.",
+      "source": "USDA: flour tortilla 45 g medium / 72 g burrito; corn tortilla 28 g."
+    },
+
+    "grains_potato": {
+      "applies_to": ["Potato baked/boiled", "Sweet potato baked", "Russet potato"],
+      "weighing_state": "cooked, flesh + skin",
+      "countable": true,
+      "unit_label": "medium potato",
+      "grams_per_unit": 173,
+      "serving_units": 1,
+      "serving_g": 173,
+      "serving_household": "1 medium potato (fist-sized)",
+      "min_g": 100,
+      "max_g": 300,
+      "min_household": "1 small (about 100 g)",
+      "max_household": "1 large (about 300 g)",
+      "potato_sizes_g": { "small": 100, "medium": 173, "large": 300 },
+      "notes": "Potatoes are semi-countable: a medium potato = ~173 g cooked, but coaches often weigh them, so allow gram-snapping between sizes too. BDA plates 175 g (3 egg-sized). Sweet potato medium = ~130 g. Don't plate '1.4 potatoes' - either round to whole potatoes or state grams ('about 200 g').",
+      "source": "USDA medium potato 173 g; BDA 175 g; FDA RACC potato (fresh) 110 g."
+    },
+
+    "legumes_beans_lentils_cooked": {
+      "applies_to": ["Black beans cooked", "Chickpeas cooked", "Lentils cooked", "Kidney/pinto beans cooked", "Edamame"],
+      "weighing_state": "cooked / canned-drained",
+      "countable": false,
+      "scoop_step_g": 25,
+      "serving_g": 130,
+      "serving_household": "about 3/4 cup cooked",
+      "min_g": 80,
+      "max_g": 200,
+      "min_household": "1/2 cup cooked",
+      "max_household": "1 cup cooked",
+      "cup_weights_g": { "black_beans": 172, "chickpeas": 164, "lentils": 198, "kidney_beans": 177, "pinto_beans": 171 },
+      "notes": "RACC for beans = 130 g (~1 cup, in-sauce/canned). BDA plates 150 g (4 tbsp). Snap to half-cup steps. Cooked legume cup weights: lentils 198 g, black beans 172 g, chickpeas 164 g. Beans-as-side ~1/2 cup; beans-as-main (chili, dal) up to 1 cup.",
+      "source": "FDA RACC beans 130 g; BDA 150 g; USDA cooked-legume cup weights."
+    },
+
+    "vegetables": {
+      "applies_to": ["Broccoli/green beans/carrots/peppers cooked or raw", "Leafy greens", "Zucchini/cauliflower/asparagus", "Tomato/cucumber raw"],
+      "weighing_state": "raw or cooked as served",
+      "countable": false,
+      "scoop_step_g": 10,
+      "serving_g": 85,
+      "serving_household": "about 1 cup non-leafy (3 heaped tbsp)",
+      "min_g": 50,
+      "max_g": 300,
+      "min_household": "1/2 cup",
+      "max_household": "2-3 cups (free-volume veg, no real ceiling for fat-loss)",
+      "leafy_greens_cup_g": 30,
+      "non_leafy_cup_g": 90,
+      "countable_veg": {
+        "_note": "A few veg ARE countable - round these to whole pieces",
+        "tomato_medium_g": 123,
+        "bell_pepper_medium_g": 119,
+        "carrot_medium_g": 61,
+        "cucumber_medium_g": 200
+      },
+      "notes": "RACC = 85 g (~1 cup) cooked/frozen veg; raw leafy = 85 g but only ~30 g/cup so it's 3 cups. BDA plates 80 g (3 heaped tbsp). Most non-starchy veg are 'free volume' for fat-loss - max_g is generous (2-3 cups). A medium tomato/pepper/carrot is countable; loose chopped veg is scoopable.",
+      "source": "FDA RACC veg 85 g; BDA 80 g; USDA cup weights (leafy ~30 g, cooked non-leafy ~90 g)."
+    },
+
+    "fruit": {
+      "applies_to": ["Apple/banana/orange whole", "Berries", "Grapes", "Melon", "Cut/chopped fruit"],
+      "weighing_state": "raw, edible portion",
+      "countable_whole_fruit": true,
+      "scoop_step_g": 10,
+      "serving_g": 120,
+      "serving_household": "1 medium piece OR about 1 cup berries",
+      "min_g": 60,
+      "max_g": 200,
+      "whole_fruit_grams_per_unit": {
+        "apple_medium": 182,
+        "banana_medium": 118,
+        "orange_medium": 131,
+        "kiwi": 69,
+        "clementine": 74,
+        "strawberry_each": 12,
+        "grape_each": 5,
+        "blueberry_each": 1.5
+      },
+      "berry_cup_g": { "strawberries_whole": 152, "blueberries": 148, "raspberries": 123, "grapes": 151 },
+      "notes": "CRITICAL footgun rule: berries are SCOOPABLE BY CUP, not countable by berry - never write '2 berries = 120 g' (that's ~10 berries). Whole tree/vine fruit IS countable: round apples/bananas/oranges to whole pieces (1 medium banana = 118 g, never 0.7 banana). RACC = 140 g. Cut fruit / berries: snap grams to a clean fraction of a cup (1/2 cup ~75 g, 1 cup ~150 g). BDA portion = 80 g.",
+      "source": "FDA RACC fruit 140 g; BDA 80 g; USDA medium-fruit weights (apple 182 g, banana 118 g, orange 131 g) + berry cup weights."
+    },
+
+    "fats_oils": {
+      "applies_to": ["Olive/avocado/canola oil", "Butter", "Ghee", "Cooking spray"],
+      "weighing_state": "as-is",
+      "countable": false,
+      "scoop_step_g": 2.5,
+      "serving_g": 14,
+      "serving_household": "1 tbsp",
+      "min_g": 5,
+      "max_g": 28,
+      "min_household": "1 tsp (cooking film)",
+      "max_household": "2 tbsp",
+      "tbsp_g": 14,
+      "tsp_g": 4.5,
+      "notes": "RACC for fats/oils = 1 tbsp (14 g). Snap to tsp/tbsp multiples: 5 g (~1 tsp), 9 g (2 tsp), 14 g (1 tbsp). Oil is calorie-dense - a realistic 'cooking the meal' amount is 1 tsp-1 tbsp; >2 tbsp (28 g = 250 kcal) on one plate is almost always a planner error. BDA spread/oil portion = 5 g (1 tsp).",
+      "source": "FDA RACC oil 1 tbsp/14 g; BDA 5 g; USDA 1 tbsp oil = 13.5-14 g."
+    },
+
+    "nuts_seeds": {
+      "applies_to": ["Almonds/walnuts/cashews/peanuts", "Pistachios", "Pumpkin/sunflower/chia/flax seeds"],
+      "weighing_state": "as-is",
+      "countable": false,
+      "scoop_step_g": 5,
+      "serving_g": 28,
+      "serving_household": "1 oz (small handful)",
+      "min_g": 14,
+      "max_g": 42,
+      "min_household": "1/2 oz (1 tbsp)",
+      "max_household": "1.5 oz (large handful)",
+      "notes": "RACC for nuts/seeds = 30 g (1 oz, ~2 tbsp). BDA = 30 g (one handful). Snap to 5 g steps. Nuts are calorie-dense (1 oz almonds ~160 kcal) - a realistic plate is 1/2 to 1.5 oz; rarely above 42 g. Chia/flax used as 1-2 tbsp (12-24 g) toppers, not handfuls.",
+      "source": "FDA RACC nuts 30 g; BDA 30 g (handful); USDA 1 oz = 28 g."
+    },
+
+    "nut_butter": {
+      "applies_to": ["Peanut butter", "Almond butter", "Tahini", "PBfit powder (rehydrated)"],
+      "weighing_state": "as-is",
+      "countable": false,
+      "scoop_step_g": 5,
+      "serving_g": 32,
+      "serving_household": "2 tbsp",
+      "min_g": 16,
+      "max_g": 48,
+      "min_household": "1 tbsp",
+      "max_household": "3 tbsp",
+      "tbsp_g": 16,
+      "notes": "RACC for nut butter = 2 tbsp (32 g). 1 tbsp peanut butter = ~16 g. Snap to ~16 g (1 tbsp) steps. Calorie-dense (2 tbsp PB ~190 kcal) - realistic plate is 1-2 tbsp; 3 tbsp is the ceiling. BDA = 30 g (1 tbsp by their measure). PBfit powder is much lighter per tbsp (~6 g powder) - treat by powder grams, not PB grams.",
+      "source": "FDA RACC nut butter 2 tbsp/32 g; BDA 30 g; USDA 1 tbsp PB = 16 g."
+    },
+
+    "dairy_yogurt": {
+      "applies_to": ["Greek yogurt plain", "Regular yogurt", "Skyr"],
+      "weighing_state": "as-is",
+      "countable": false,
+      "scoop_step_g": 10,
+      "serving_g": 170,
+      "serving_household": "1 standard pot / 3/4 cup",
+      "min_g": 100,
+      "max_g": 250,
+      "min_household": "1/2 cup (about 113 g)",
+      "max_household": "1 cup (about 245 g) / large bowl",
+      "cup_g": 245,
+      "single_pot_g": 170,
+      "notes": "RACC for yogurt = 170 g (the standard single-serve pot). BDA = 125-150 g (one pot). Snap to 10 g steps. Greek yogurt is the protein workhorse - realistic plate 150-250 g; a 1-cup (245 g) bowl is the upper end. Don't plate odd numbers like 187 g - snap to 150/170/200/250.",
+      "source": "FDA RACC yogurt 170 g; BDA 125-150 g; USDA 1 cup yogurt = 245 g."
+    },
+
+    "dairy_milk": {
+      "applies_to": ["Whole/2%/skim milk", "Almond/soy/oat milk"],
+      "weighing_state": "as-is (liquid)",
+      "countable": false,
+      "scoop_step_g": 30,
+      "serving_g": 240,
+      "serving_household": "1 cup (8 fl oz)",
+      "min_g": 120,
+      "max_g": 360,
+      "min_household": "1/2 cup (splash in oats/coffee)",
+      "max_household": "1.5 cups",
+      "cup_g": 244,
+      "notes": "RACC for milk = 240 mL/g (1 cup). Snap to clean fractions of a cup (1/4, 1/2, 1 cup). Plant milks ~the same volume but lighter (~1 cup almond milk = 240 g but ~30-40 kcal). A 'splash' in oats/coffee = 1/4-1/2 cup; a glass = 1 cup.",
+      "source": "FDA RACC milk 240 mL; USDA 1 cup milk = 244 g."
+    },
+
+    "dairy_cottage_ricotta": {
+      "applies_to": ["Cottage cheese", "Ricotta part-skim"],
+      "weighing_state": "as-is",
+      "countable": false,
+      "scoop_step_g": 10,
+      "serving_g": 110,
+      "serving_household": "1/2 cup",
+      "min_g": 100,
+      "max_g": 226,
+      "min_household": "1/2 cup (about 113 g)",
+      "max_household": "1 cup (about 226 g)",
+      "cup_g": 226,
+      "notes": "RACC for cottage cheese = 110 g (1/2 cup). Snap to half-cup steps. High-protein, low-cal - a protein-forward plate runs 1/2 to 1 cup (113-226 g). Ricotta is denser/fattier - use as a 50-100 g topping, not a 1-cup serving.",
+      "source": "FDA RACC cottage cheese 110 g (1/2 cup); USDA 1 cup = 226 g."
+    },
+
+    "dairy_cheese_hard": {
+      "applies_to": ["Cheddar/mozzarella/parmesan block or shredded", "String cheese", "Feta crumbled", "Sliced cheese"],
+      "weighing_state": "as-is",
+      "countable_for_units": true,
+      "scoop_step_g": 5,
+      "serving_g": 28,
+      "serving_household": "1 oz (matchbox / 4 dice)",
+      "min_g": 14,
+      "max_g": 56,
+      "min_household": "1/2 oz (sprinkle)",
+      "max_household": "2 oz",
+      "countable_units": {
+        "string_cheese_stick_g": 28,
+        "cheese_slice_deli_g": 19,
+        "shredded_cup_g": 113
+      },
+      "notes": "RACC for hard cheese = 30 g (1 oz). BDA = 30 g (matchbox). Cheese is dual-mode: a STRING-CHEESE stick (28 g) or a deli SLICE (19 g) is countable - round to whole sticks/slices. Shredded/crumbled/grated is scoopable - snap grams (1/4 cup shredded ~28 g). Calorie-dense - realistic plate 1/2 to 2 oz; parmesan as a 1-2 tbsp (5-10 g) finisher.",
+      "source": "FDA RACC cheese 30 g; BDA 30 g (matchbox); USDA string cheese 28 g, deli slice ~19 g, 1 cup shredded 113 g."
+    },
+
+    "condiments_sauces": {
+      "applies_to": ["BBQ/soy/hot sauce", "Ketchup/mustard/mayo", "Salad dressing", "Salsa", "Honey/maple/jam"],
+      "weighing_state": "as-is",
+      "countable": false,
+      "scoop_step_g": 5,
+      "serving_g": 30,
+      "serving_household": "2 tbsp",
+      "min_g": 5,
+      "max_g": 45,
+      "min_household": "1 tsp (a dash)",
+      "max_household": "3 tbsp",
+      "tbsp_g": 15,
+      "tsp_g": 5,
+      "low_cal_subgroup": {
+        "_note": "Low-cal condiments (hot sauce, mustard, soy, salsa) plate small as flavor, 1-2 tsp typical",
+        "serving_g": 10
+      },
+      "sweet_subgroup": {
+        "_note": "Honey/maple/jam are calorie-dense sweeteners - plate 1 tsp to 1 tbsp",
+        "serving_g": 14, "min_g": 5, "max_g": 21, "tbsp_g": 21, "tsp_g": 7
+      },
+      "notes": "RACC for most dressings/sauces = 2 tbsp (30 g). Snap to tsp/tbsp multiples (5 g steps). Differentiate: high-cal dressings/mayo/sweeteners plate small (1 tsp-1 tbsp); low-cal hot sauce/mustard/soy as a dash (1-2 tsp). Never plate '23 g of ketchup' - snap to 15 g (1 tbsp) or 30 g (2 tbsp).",
+      "source": "FDA RACC dressing/sauce 30 g (2 tbsp); USDA 1 tbsp = 15 g, 1 tbsp honey = 21 g."
+    }
+  },
+
+  "global_footgun_rules": [
+    "WHOLE COUNTABLE foods (eggs, bread slices, tortillas, whole fruit, string cheese, deli slices, medium potato) MUST round to a whole number of units. Plate 2 eggs not 1.6; 2 slices not 2.25; 1 banana not 0.7.",
+    "BERRIES ARE SCOOPED BY CUP, never counted by individual berry. '120 g of blueberries' = ~1 cup ~ 80 berries, so never render it as 'N berries'. Same for grapes.",
+    "If a single food would need to exceed its max_g to hit a macro target, ADD A SECOND FOOD instead of plating an absurd amount (no '5 tortillas for 1.5 oz turkey', no '300 g of peanut butter').",
+    "Calorie-dense foods (oils, nut butter, nuts, cheese, sweeteners) have tight ceilings - if the plan wants more fat, prefer a leaner protein + a normal fat serving over a giant oil pour.",
+    "Snap all non-countable grams to the food's scoop_step so portions read as clean numbers a human would actually measure (120 g, not 117.3 g; 1/2 cup, not 0.47 cup).",
+    "Cooked grains/legumes: weigh and plate COOKED, in half-cup steps, using the per-grain cup weight (rice 158 g/cup is heavier than pasta 140 g/cup)."
+  ]
+}
